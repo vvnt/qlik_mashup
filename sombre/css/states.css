@@ -1,0 +1,32 @@
+/*
+ * États Qlik des valeurs dans les listes (filtres, puces, filtre joker), traduits dans la palette
+ * du thème Excelcio : aucune couleur n'est propre à ce fichier, tout vient des tokens du thème.
+ *
+ *   sélectionnée (S)  → aplat bordeaux de la marque, texte blanc
+ *   possible (O)      → surface sombre la plus claire, texte blanc
+ *   alternative (A)   → surface sombre intermédiaire, texte courant
+ *   exclue (X)        → surface la plus sombre, texte atténué (hors sélection)
+ *
+ * Au survol, seule la couleur du texte change (fondu). Chaque couple fond / texte, y compris
+ * au survol, respecte le contraste AA (4,5:1) : voir le contrôle dans README.md.
+ */
+@layer tokens {
+  :root {
+    --state-selected-bg: var(--brand);
+    --state-selected-fg: var(--white);
+    --state-selected-hover: var(--tint-2-e);
+    --state-selected-text: var(--accent-on-dark);     /* filet et compteur des boutons de filtre */
+
+    --state-possible-bg: var(--dark-3);
+    --state-possible-fg: var(--text-on-dark);
+    --state-possible-hover: var(--accent-on-dark);
+
+    --state-alternative-bg: var(--dark-2);
+    --state-alternative-fg: var(--body-on-dark);
+    --state-alternative-hover: var(--accent-on-dark);
+
+    --state-excluded-bg: var(--dark-0);
+    --state-excluded-fg: var(--muted-on-dark);
+    --state-excluded-hover: var(--body-on-dark);
+  }
+}

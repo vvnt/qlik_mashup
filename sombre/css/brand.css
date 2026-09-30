@@ -1,0 +1,27 @@
+/*
+ * Couleurs de marque Excelcio.
+ * Copie de [params.style] (themes/excelcio/hugo.toml), que Hugo injecte via
+ * @import "hugo:vars". Ici il n'y a pas de Hugo : on les déclare à la main.
+ * Toute valeur ci-dessous doit rester identique à celle du thème.
+ */
+@layer tokens {
+  :root {
+    --brand: #A82234;
+    --brand-strong: #8C1C2B;
+    --ink: #1A171B;
+    --accent: #D42A40;
+    --accent-on-dark: #FF6B7F;
+    --dark-0: #131014;
+    --dark-1: #1A171B;
+    --dark-2: #241F25;
+    --dark-3: #2E282F;
+    --light-1: #FFFFFF;
+    --light-2: #FAF7F6;
+    --text-on-light: #1A171B;
+    --body-on-light: #5C5358;
+    --muted-on-light: #8A7F84;
+    --text-on-dark: #FFFFFF;
+    --body-on-dark: #CAC3C7;
+    --muted-on-dark: #A0969B;
+  }
+}

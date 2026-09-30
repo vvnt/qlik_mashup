@@ -1,0 +1,28 @@
+/*
+ * Rôles de couleur des graphiques, dérivés des tokens Excelcio.
+ * theme.js les lit avec getComputedStyle : aucune couleur en dur côté JavaScript.
+ * Langage visuel de la référence : aplats gris, un seul accent.
+ */
+@layer tokens {
+  :root {
+    --chart-accent: var(--accent-on-dark);
+    /* Marques : la référence utilise --dark-3 (décoratif). Pour des données lisibles il faut
+       ≥ 3:1 contre le fond des cartes (WCAG 1.4.11), d'où un gris intermédiaire. */
+    --chart-mark: color-mix(in srgb, var(--muted-on-dark) 55%, var(--dark-2));
+    --chart-mark-hover: var(--muted-on-dark);
+    --chart-muted: var(--muted-on-dark);
+    --chart-ink: var(--fg-muted);
+    --chart-label: var(--fg-body);
+    --chart-strong: var(--fg);
+    --chart-on-accent: var(--dark-0);
+    --chart-grid: var(--line);
+    --chart-tooltip-bg: var(--dark-3);
+    --bar-row: 2.25rem;               /* hauteur d'une barre horizontale + son espacement */
+    --chart-1: var(--accent-on-dark);
+    --chart-2: var(--body-on-dark);
+    --chart-3: var(--muted-on-dark);
+    --chart-4: color-mix(in srgb, var(--muted-on-dark) 55%, var(--dark-2));
+    --chart-5: color-mix(in srgb, var(--muted-on-dark) 35%, var(--dark-2));
+    --chart-6: var(--dark-3);
+  }
+}

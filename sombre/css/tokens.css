@@ -1,0 +1,224 @@
+/*
+ * Design tokens.
+ * Brand colours (--brand, --ink, --dark-*, --light-*…) come from site.Params.style
+ * through @import "hugo:vars" (see main.css). Everything else is defined here.
+ * Values measured on the reference site: docs/reference.md.
+ */
+@layer tokens {
+  :root {
+    /* Typography */
+    --font-sans: "Geist", "Geist Fallback", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+    /* Fluid type scale: 390 px → 1440 px (clamped beyond) */
+    --fs-display: clamp(2.5rem, 0.196rem + 5.893vw, 5.5rem);      /* H1: 40 → 88 */
+    --fs-stat: clamp(3.5rem, 2.36rem + 3.28vw, 5.4rem);           /* 56 → 86.4 */
+    --fs-statement: clamp(1.875rem, 1.271rem + 2.476vw, 3.5rem);  /* 30 → 56 */
+    --fs-h2: clamp(1.625rem, 0.429rem + 2.857vw, 3rem);           /* 26 → 48 */
+    --fs-h3-lg: clamp(1.375rem, 1.1rem + 0.9vw, 1.89rem);         /* 22 → 30 */
+    --fs-h3: clamp(1.25rem, 1.05rem + 0.75vw, 1.75rem);           /* 20 → 28 */
+    --fs-h4: 1.25rem;                                             /* 20 */
+    --fs-lead: 1.0625rem;                                         /* 17 */
+    --fs-body: 1rem;                                              /* 16 */
+    --fs-sm: 0.9375rem;                                           /* 15 */
+    --fs-ui: 0.875rem;                                            /* 14 */
+    --fs-nav: 0.8125rem;                                          /* 13 */
+    --fs-xs: 0.75rem;                                             /* 12 */
+    --fs-2xs: 0.6875rem;                                          /* 11 */
+
+    --lh-display: 0.98;
+    --lh-heading: 1.05;
+    --lh-title: 1.2;
+    --lh-body: 1.45;
+    --lh-relaxed: 1.55;
+
+    --ls-display: -0.035em;
+    --ls-heading: -0.04em;
+    --ls-title: -0.02em;
+    --ls-body: -0.01em;
+    --ls-caps: 0.08em;
+    --ls-mono-caps: 0.1em;
+
+    --fw-regular: 400;
+    --fw-button: 450;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+
+    /* Spacing (base 4 px) */
+    --sp-1: 0.25rem;
+    --sp-2: 0.5rem;
+    --sp-3: 0.75rem;
+    --sp-4: 1rem;
+    --sp-5: 1.25rem;
+    --sp-6: 1.5rem;
+    --sp-7: 1.75rem;
+    --sp-8: 2rem;
+    --sp-9: 2.5rem;
+    --sp-10: 3rem;
+    --sp-11: 4rem;
+    --sp-12: 5rem;
+    --sp-13: 7.5rem;
+    --sp-14: 10rem;
+
+    /* Layout */
+    --container: min(85%, 91.125rem);                     /* 85 % of viewport, max 1458 px */
+    --measure-heading: 61.25rem;                          /* 980 px */
+    --measure-display: 65.625rem;                         /* 1050 px */
+    --measure-text: 42rem;
+    --section-pad: 3rem;                                  /* 48 px, 160 px on large screens */
+    --header-h: 4.125rem;                                 /* 66 px */
+    --gutter: 0.75rem;                                    /* card grid gap: 12 px */
+
+    /* Shapes */
+    --radius-0: 0;
+    --radius-pill: 999px;
+    --border: 1px;
+
+    /* Motion */
+    --dur-fast: 0.15s;
+    --dur-base: 0.3s;
+    --dur-reveal: 0.36s;
+    --dur-surface: 0.42s;
+    --dur-slow: 0.6s;
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out: cubic-bezier(0.33, 0, 0.2, 1);
+    --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+    --ease-nav: cubic-bezier(0.525, 0, 0, 1);
+    --ease-fade: cubic-bezier(0.44, 0, 0.56, 1);
+    --stagger: 55ms;
+    --tile-cell: 3.5rem;                                  /* square of the filter transition (rem) */
+    --tile-stagger: 30ms;                                 /* delay step between squares of the filter transition */
+
+    /* Layers */
+    --z-base: 1;
+    --z-overlay: 90;
+    --z-header: 100;
+    --z-progress: 110;
+
+    /* Reading progress bar (reference: 4 px, bright accent, above the header) */
+    --progress-h: 0.25rem;
+    --progress-color: var(--accent-on-dark);
+    --z-skip: 200;
+
+    /* Utility colours */
+    --white: #fff;
+    --white-10: rgb(255 255 255 / 0.1);
+    --white-86: rgb(255 255 255 / 0.86);
+    --nav-link: #E8E6E7;
+    --overlay: rgb(10 8 10 / 0.5);
+    --dev-flag-bg: #FFD400;
+    --dev-flag-fg: #000;
+
+    /* Diagram tints derived from the brand colour (architecture section).
+       Band 1: white text (≥ 4.5:1). Band 2: ink text (≥ 4.5:1). */
+    --tint-1-a: #6E1522;
+    --tint-1-b: #7F1A28;
+    --tint-1-c: #8C1C2B;
+    --tint-1-d: #A82234;
+    --tint-2-a: #E9A1AB;
+    --tint-2-b: #EDB0B8;
+    --tint-2-c: #F1BFC6;
+    --tint-2-d: #F4CDD2;
+    --tint-2-e: #F7DBDF;
+    --tint-2-f: #FAE8EB;
+
+    /* Case-study card backgrounds (placeholders until real visuals exist) */
+    --story-1: var(--brand);
+    --story-2: var(--dark-3);
+    --story-3: var(--brand-strong);
+    --video-veil: rgb(19 16 20 / 0.35);
+    --scrim: rgb(19 16 20 / 0.78); /* legibility overlay on photos (functional, not decorative) */
+
+    /* Default tone = dark page */
+    --bg: var(--dark-1);
+    --fg: var(--text-on-dark);
+    --fg-body: var(--body-on-dark);
+    --fg-muted: var(--muted-on-dark);
+    --fg-accent: var(--accent-on-dark);
+    --surface: var(--dark-2);
+    --surface-hover: var(--dark-3);
+    --line: rgb(160 150 155 / 0.28);
+    --focus: var(--accent-on-dark);
+    --fg-error: var(--accent-on-dark);
+    --badge-bg: var(--accent);
+    --badge-fg: var(--white);
+  }
+
+  @media (min-width: 62em) {
+    :root {
+      --section-pad: clamp(6rem, 11.11vw, 10rem);
+    }
+  }
+
+  /*
+   * Section tones. Each tone redefines the local colour roles;
+   * components only use the roles (--bg, --fg, --fg-body…).
+   */
+  .tone-brand {
+    --bg: var(--brand);
+    --fg: var(--white);
+    --fg-body: rgb(255 255 255 / 0.82);   /* ≥ 4.5:1 on brand */
+    --fg-muted: rgb(255 255 255 / 0.64);  /* large text only (≥ 3:1) */
+    --fg-accent: var(--white);
+    --surface: var(--brand-strong);
+    --surface-hover: var(--brand-strong);
+    --line: rgb(255 255 255 / 0.28);
+    --focus: var(--white);
+    --fg-error: var(--white);
+    --badge-bg: var(--white);
+    --badge-fg: var(--brand);
+    color-scheme: dark;
+  }
+
+  .tone-light,
+  .tone-light-alt {
+    --bg: var(--light-1);
+    --fg: var(--text-on-light);
+    --fg-body: var(--body-on-light);
+    --fg-muted: var(--muted-on-light);    /* large text only (≥ 3:1) */
+    --fg-accent: var(--accent);
+    --surface: var(--light-2);
+    --surface-hover: #F2EDEC;
+    --line: rgb(26 23 27 / 0.12);
+    --focus: var(--brand);
+    --fg-error: var(--brand);
+    --badge-bg: var(--accent);
+    --badge-fg: var(--white);
+    color-scheme: light;
+  }
+
+  .tone-light-alt {
+    --bg: var(--light-2);
+    --surface: var(--light-1);
+    --surface-hover: #fff;
+  }
+
+  .tone-dark,
+  .tone-dark-alt,
+  .tone-deep {
+    --bg: var(--dark-1);
+    --fg: var(--text-on-dark);
+    --fg-body: var(--body-on-dark);
+    --fg-muted: var(--muted-on-dark);
+    --fg-accent: var(--accent-on-dark);
+    --surface: var(--dark-2);
+    --surface-hover: var(--dark-3);
+    --line: rgb(160 150 155 / 0.28);
+    --focus: var(--accent-on-dark);
+    --fg-error: var(--accent-on-dark);
+    --badge-bg: var(--accent);
+    --badge-fg: var(--white);
+    color-scheme: dark;
+  }
+
+  .tone-dark-alt {
+    --bg: var(--dark-2);
+    --surface: var(--dark-3);
+    --surface-hover: #383139;
+  }
+
+  .tone-deep {
+    --bg: var(--dark-0);
+    --surface: var(--dark-2);
+  }
+}

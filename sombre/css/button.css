@@ -1,0 +1,132 @@
+@layer components {
+  .btn {
+    --btn-h: 3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-2);
+    min-height: var(--btn-h);
+    padding: 0 var(--sp-6);
+    border: 2px solid transparent;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-button);
+    line-height: 1;
+    letter-spacing: 0;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      color var(--dur-fast) var(--ease-standard),
+      background-color var(--dur-fast) var(--ease-standard),
+      border-color var(--dur-fast) var(--ease-standard),
+      opacity 0.2s var(--ease-standard);
+  }
+
+  .btn--sm {
+    --btn-h: 2.25rem;
+    padding: 0 var(--sp-4);
+    font-size: var(--fs-ui);
+  }
+
+  /* Primary: white on brand and dark tones, brand on light tones. */
+  .btn--primary {
+    background: var(--btn-bg, var(--white));
+    border-color: var(--btn-bg, var(--white));
+    color: var(--btn-fg, var(--ink));
+  }
+
+  .btn--primary:hover {
+    background: var(--btn-bg-hover, var(--white-86));
+    border-color: var(--btn-bg-hover, var(--white-86));
+  }
+
+  .tone-brand {
+    --btn-fg: var(--brand);
+  }
+
+  .tone-light,
+  .tone-light-alt {
+    --btn-bg: var(--brand);
+    --btn-fg: var(--white);
+    --btn-bg-hover: var(--brand-strong);
+  }
+
+  /* Secondary: outlined with the current text colour. */
+  .btn--secondary {
+    background: transparent;
+    border-color: var(--fg);
+    color: var(--fg);
+  }
+
+  .btn--secondary:hover {
+    background: color-mix(in srgb, var(--fg) 10%, transparent);
+  }
+
+  .btn[aria-disabled="true"],
+  .btn:disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+  }
+
+  @media (max-width: 35.99em) {
+    .btn-row--stack {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  /* Text link with an arrow. */
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    color: var(--fg);
+    font-size: var(--fs-body);
+    text-decoration: none;
+  }
+
+  .link-arrow .icon {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.16s var(--ease-out);
+  }
+
+  .link-arrow:hover .icon {
+    transform: translateX(3px);
+  }
+
+  .link-arrow:hover {
+    color: var(--fg-accent);
+  }
+
+  /* Square icon button (carousel arrows, social links). */
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: var(--surface);
+    color: var(--fg);
+    transition: background-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .icon-btn:hover {
+    background: var(--surface-hover);
+  }
+
+  .icon-btn .icon {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .icon-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+}

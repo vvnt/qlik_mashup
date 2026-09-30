@@ -1,0 +1,303 @@
+@layer components {
+  /* Two-part heading: a solid lead sentence followed by a muted one. */
+  .title__lead {
+    color: var(--fg);
+  }
+
+  .title__rest {
+    display: block;
+    color: var(--fg-muted);
+  }
+
+  .title__accent {
+    color: var(--fg-accent);
+  }
+
+  .title--display {
+    max-width: var(--measure-display);
+  }
+
+  .title--section {
+    max-width: var(--measure-heading);
+  }
+
+  .statement {
+    font-size: var(--fs-statement);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--fg-muted);
+    text-align: center;
+    max-width: 55rem;
+    margin-inline: auto;
+    text-wrap: balance;
+  }
+
+  /* Small caps label (mega-menu groups, footer columns, feature keys). */
+  .eyebrow {
+    display: block;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--ls-caps);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .eyebrow--mono {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-mono-caps);
+    color: var(--fg);
+  }
+
+  .lead {
+    font-size: var(--fs-lead);
+    line-height: var(--lh-relaxed);
+    color: var(--fg-body);
+    max-width: var(--measure-text);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Small monospace capitals: labels, keys and metadata (one shared rule). */
+  .form__mock,
+  .facts dt,
+  .card__key,
+  .filters__label,
+  .contact-list dt,
+  .search-result__meta,
+  .search-dialog__hint,
+  .arch__band-label,
+  .rows__key,
+  .md-example__label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  /* Rich text from Markdown. */
+  .prose {
+    max-width: var(--measure-text);
+    color: var(--fg-body);
+    line-height: var(--lh-relaxed);
+  }
+
+  .prose > * + * {
+    margin-top: var(--sp-5);
+  }
+
+  .prose h2 {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-title);
+    letter-spacing: var(--ls-title);
+    margin-top: var(--sp-11);
+  }
+
+  .prose h3 {
+    font-size: var(--fs-h4);
+    margin-top: var(--sp-9);
+  }
+
+  .prose a {
+    color: var(--fg);
+  }
+
+  .prose a:hover {
+    color: var(--fg-accent);
+  }
+
+  .prose ul,
+  .prose ol {
+    padding-left: var(--sp-6);
+  }
+
+  .prose li + li {
+    margin-top: var(--sp-2);
+  }
+
+  .prose blockquote {
+    border-left: 2px solid var(--line);
+    padding-left: var(--sp-5);
+    color: var(--fg);
+  }
+
+  .prose blockquote blockquote {
+    margin-top: var(--sp-3);
+  }
+
+  .prose h4 {
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+    letter-spacing: 0;
+    margin-top: var(--sp-8);
+  }
+
+  .prose em {
+    font-style: italic;
+  }
+
+  .prose del,
+  .prose s {
+    color: var(--fg-muted);
+  }
+
+  .prose ins {
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-underline-offset: 0.2em;
+  }
+
+  .prose mark {
+    padding: 0 0.15em;
+    background: var(--tint-2-e);
+    color: var(--ink);
+  }
+
+  .prose sub,
+  .prose sup {
+    font-size: 0.75em;
+    line-height: 0;
+  }
+
+  /* Inline code and code blocks (colours of highlighted code: Chroma stylesheet). */
+  .prose :not(pre) > code {
+    padding: 0.1em 0.35em;
+    background: var(--surface);
+    color: var(--fg);
+    font-size: 0.875em;
+  }
+
+  .prose pre {
+    overflow-x: auto;
+    padding: var(--sp-5);
+    background: var(--surface);
+    font-size: var(--fs-ui);
+    line-height: 1.6;
+    tab-size: 2;
+  }
+
+  .prose .highlight pre {
+    background: var(--surface);
+  }
+
+  .prose kbd {
+    padding: 0.1em 0.4em;
+    border: var(--border) solid var(--line);
+    border-bottom-width: 2px;
+    font-size: 0.85em;
+  }
+
+  /* Tables */
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-ui);
+  }
+
+  .prose th,
+  .prose td {
+    padding: var(--sp-3) var(--sp-4) var(--sp-3) 0;
+    border-bottom: var(--border) solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .prose th {
+    color: var(--fg);
+    font-weight: var(--fw-medium);
+  }
+
+  .prose th[style*="center"],
+  .prose td[style*="center"] {
+    text-align: center;
+  }
+
+  .prose th[style*="right"],
+  .prose td[style*="right"] {
+    text-align: right;
+  }
+
+  /* Definition lists */
+  .prose dt {
+    color: var(--fg);
+    font-weight: var(--fw-medium);
+  }
+
+  .prose dd {
+    margin: var(--sp-1) 0 var(--sp-3) var(--sp-6);
+  }
+
+  /* Task lists */
+  .prose li:has(> input[type="checkbox"]) {
+    list-style: none;
+    margin-left: calc(-1 * var(--sp-6));
+  }
+
+  .prose input[type="checkbox"] {
+    margin-right: var(--sp-2);
+    accent-color: var(--brand);
+  }
+
+  /* Footnotes */
+  .prose .footnotes {
+    margin-top: var(--sp-10);
+    padding-top: var(--sp-5);
+    border-top: var(--border) solid var(--line);
+    color: var(--fg-muted);
+    font-size: var(--fs-ui);
+  }
+
+  .prose .footnotes hr {
+    display: none;
+  }
+
+  .prose .footnote-ref,
+  .prose .footnote-backref {
+    text-decoration: none;
+  }
+
+  .prose picture,
+  .prose img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Markdown documentation helper (md-example shortcode). */
+  .prose:has(.md-example) {
+    max-width: var(--measure-display);
+  }
+
+  .md-example {
+    display: grid;
+    gap: var(--sp-4);
+    margin-block: var(--sp-6);
+  }
+
+  @media (min-width: 62em) {
+    .md-example {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+
+  .md-example__label {
+    margin-bottom: var(--sp-2);
+  }
+
+  .md-example__source pre {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+  .md-example__result {
+    padding: var(--sp-5);
+    border: var(--border) dashed var(--line);
+  }
+
+  .md-example__result .prose {
+    max-width: none;
+  }
+}

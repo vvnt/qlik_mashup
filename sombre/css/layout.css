@@ -1,0 +1,135 @@
+/* Mise en page du mashup : en-tête, titre, grille. Mobile d'abord. */
+@layer layout {
+  .container {
+    width: var(--container);
+    margin-inline: auto;
+  }
+
+  /* Cadre étroit sur mobile : 85 % de 390 px serait trop juste pour un tableau de bord. */
+  @media (max-width: 47.99em) {
+    .container {
+      width: calc(100% - 2 * var(--sp-4));
+    }
+  }
+
+  .skip-link {
+    position: fixed;
+    top: var(--sp-3);
+    left: var(--sp-3);
+    z-index: var(--z-skip);
+    padding: var(--sp-3) var(--sp-5);
+    border-radius: var(--radius-pill);
+    background: var(--white);
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  /* En-tête : barre sombre pleine, comme les pages intérieures du site. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    height: var(--header-h);
+    background: var(--dark-0);
+    color: var(--white);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+    height: 100%;
+  }
+
+  .site-header__logo {
+    flex: none;
+    display: block;
+  }
+
+  .site-header__logo img {
+    width: auto;
+    height: 2rem;
+  }
+
+  .site-header__meta {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .site-main {
+    display: block;
+    padding-block: var(--sp-10) var(--sp-12);
+    background: var(--bg);
+  }
+
+  .site-main:focus {
+    outline: none;
+  }
+
+  @media (min-width: 62em) {
+    .site-main {
+      padding-block: var(--sp-11) var(--sp-13);
+    }
+  }
+
+  .page-head {
+    margin-bottom: var(--sp-10);
+  }
+
+  .page-head__title {
+    max-width: var(--measure-heading);
+    font-size: var(--fs-h2);
+    line-height: var(--lh-heading);
+    letter-spacing: var(--ls-heading);
+  }
+
+  .page-head__eyebrow {
+    margin-bottom: var(--sp-5);
+  }
+
+  /* Bloc de section : indicateurs, puis grille de cartes. */
+  .stack {
+    display: grid;
+    gap: var(--gutter);
+  }
+
+  .stack + .stack {
+    margin-top: var(--gutter);
+  }
+
+  .kpi-strip {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 48em) {
+    .kpi-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .card-grid {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 62em) {
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card-grid > .qcard--wide {
+      grid-column: 1 / -1;
+    }
+  }
+}

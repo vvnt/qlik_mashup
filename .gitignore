@@ -1,0 +1,14 @@
+# Aucun fichier Markdown n'est versionné (décision du propriétaire). Le README.md créé avec le dépôt
+# reste suivi : une règle d'exclusion n'affecte pas un fichier déjà suivi.
+*.md
+
+# Maquettes de conception (elles montrent le site d'origine)
+inspiration.png
+
+# Sortie de l'assemblage des sites (régénérée par le workflow)
+_site/
+site/
+
+# Pages de test sans Qlik (make-mock-page.py) : à ne jamais versionner
+_*.html
+mock-doc.js

@@ -1,0 +1,54 @@
+# Publie les mashups du dépôt sur GitHub Pages à chaque poussée sur `main` (ou à la demande).
+#
+# Organisation : un dossier par mashup à la racine (aujourd'hui `sombre/`). Chaque mashup est publié sous
+# https://<compte>.github.io/<dépôt>/<dossier>/ ; seuls les fichiers listés dans <dossier>/tools/build-site.ps1
+# sont publiés (jamais de Markdown, de maquette ni d'outil).
+#
+# Prérequis (une seule fois) : Settings → Pages → Build and deployment → Source : « GitHub Actions ».
+# Chaque origine et adresse de retour publiées doivent être déclarées dans le client OAuth de Qlik Cloud.
+# Versions des actions : modèle officiel actions/starter-workflows (pages/static.yml).
+name: Publier sur GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois ; celui en cours n'est pas interrompu.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Assembler les sites (fichiers publics uniquement)
+        shell: pwsh
+        run: |
+          ./sombre/tools/build-site.ps1 -Out "$env:GITHUB_WORKSPACE/_site/sombre"
+          # Page d'accueil neutre : renvoie vers le mashup.
+          Set-Content -Path "$env:GITHUB_WORKSPACE/_site/index.html" -Encoding utf8 -Value '<!doctype html><html lang="fr"><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=sombre/"><title>Mashups Qlik</title><p><a href="sombre/">Ouvrir le mashup</a></p></html>'
+
+      - name: Configurer Pages
+        uses: actions/configure-pages@v5
+
+      - name: Envoyer l'artefact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Déployer sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
