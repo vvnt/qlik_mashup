@@ -1,0 +1,28 @@
+/*
+ * Rôles de couleur des graphiques, dérivés des tokens (brand.css).
+ * theme.js les lit avec getComputedStyle : aucune couleur en dur côté JavaScript.
+ * Langage visuel de la référence : noir et gris, un seul accent (le noir). N en noir, N-1 en gris.
+ */
+@layer tokens {
+  :root {
+    --chart-accent: var(--ink);
+    /* Marques : gris moyen, ≥ 3:1 contre le blanc (WCAG 1.4.11). */
+    --chart-mark: #8C8C8C;
+    --chart-mark-hover: var(--ink);
+    --chart-muted: var(--muted);
+    --chart-ink: var(--muted);
+    --chart-label: var(--ink-2);
+    --chart-strong: var(--ink);
+    --chart-on-accent: var(--white);
+    --chart-paper: var(--paper);      /* remplissage des barres « creuses » (valeurs négatives) */
+    --chart-grid: var(--rule);
+    --chart-tooltip-bg: var(--paper);
+    --bar-row: 2.25rem;               /* hauteur d'une barre horizontale + son espacement */
+    --chart-1: var(--ink);
+    --chart-2: #8C8C8C;
+    --chart-3: #B3B3B3;
+    --chart-4: #D0D0D0;
+    --chart-5: #E4E4E4;
+    --chart-6: var(--paper-3);
+  }
+}

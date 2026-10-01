@@ -1,0 +1,115 @@
+/*
+ * Design tokens « annette c. » : échelle typographique, espacements, mouvement.
+ * Couleurs de base : brand.css. Valeurs relevées sur la référence : docs/reference.md.
+ */
+@layer tokens {
+  :root {
+    /* Typographie : Nunito Sans (texte) ; Courier New (titres, libellés, noms), toujours en minuscules */
+    --font-sans: "Nunito Sans", "Avenir Next", Avenir, "Helvetica Neue", system-ui, sans-serif;
+    --font-mono: "Courier New", Courier, "Liberation Mono", monospace;
+    --font-type: var(--font-mono);
+
+    /* Échelle sobre : un tableau de bord n'a pas de titre d'affiche */
+    --fs-display: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem);   /* H1 : 28 → 40 */
+    --fs-stat: clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem);      /* chiffres clés : 28 → 40 */
+    --fs-statement: 1.5rem;
+    --fs-h2: clamp(1.25rem, 1.1rem + 0.5vw, 1.6875rem);     /* 20 → 27 */
+    --fs-h3-lg: 1.25rem;
+    --fs-h3: 1.0625rem;                                      /* 17 */
+    --fs-h4: 1rem;
+    --fs-lead: 1rem;
+    --fs-body: 1rem;                                         /* 16 */
+    --fs-sm: 0.9375rem;                                      /* 15 */
+    --fs-ui: 0.875rem;                                       /* 14 */
+    --fs-nav: 0.9375rem;                                     /* 15 */
+    --fs-xs: 0.8125rem;                                      /* 13 */
+    --fs-2xs: 0.75rem;                                       /* 12 */
+
+    --lh-display: 1.15;
+    --lh-heading: 1.2;
+    --lh-title: 1.25;
+    --lh-body: 1.5;
+    --lh-relaxed: 1.6;
+
+    --ls-display: 0.02em;
+    --ls-heading: 0.02em;
+    --ls-title: 0.02em;
+    --ls-body: 0;
+    --ls-caps: 0.045em;
+    --ls-mono-caps: 0.04em;                                  /* libellés Courier : 0,45 px à 15 px */
+
+    --fw-regular: 400;
+    --fw-button: 500;
+    --fw-medium: 500;
+    --fw-semibold: 700;
+
+    /* Spacing (base 4 px) */
+    --sp-1: 0.25rem;
+    --sp-2: 0.5rem;
+    --sp-3: 0.75rem;
+    --sp-4: 1rem;
+    --sp-5: 1.25rem;
+    --sp-6: 1.5rem;
+    --sp-7: 1.75rem;
+    --sp-8: 2rem;
+    --sp-9: 2.5rem;
+    --sp-10: 3rem;
+    --sp-11: 4rem;
+    --sp-12: 5rem;
+    --sp-13: 7.5rem;
+    --sp-14: 10rem;
+
+    /* Layout */
+    --container: min(92%, 82rem);                         /* 92 % de la fenêtre, max 1312 px */
+    --measure-heading: 61.25rem;                          /* 980 px */
+    --measure-display: 65.625rem;                         /* 1050 px */
+    --measure-text: 42rem;
+    --section-pad: 3rem;                                  /* 48 px, 160 px on large screens */
+    --header-h: 4.5rem;
+    --gutter: 1.5rem;                                     /* 24 px : l'air est le décor */
+
+    /* Shapes */
+    --radius-0: 0;
+    --radius-pill: 0;
+    --border: 1px;
+
+    /* Motion */
+    --dur-fast: 0.15s;
+    --dur-base: 0.3s;
+    --dur-reveal: 0.36s;
+    --dur-surface: 0.42s;
+    --dur-slow: 0.6s;
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out: cubic-bezier(0.33, 0, 0.2, 1);
+    --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+    --ease-nav: cubic-bezier(0.525, 0, 0, 1);
+    --ease-fade: cubic-bezier(0.44, 0, 0.56, 1);
+    --stagger: 55ms;
+
+    /* Layers */
+    --z-base: 1;
+    --z-overlay: 90;
+    --z-header: 100;
+    --z-progress: 110;
+    --z-skip: 200;
+
+    /* Utility colours */
+    --white: #fff;
+    --white-86: rgb(0 0 0 / 0.78);                       /* survol d'un bouton plein */
+    --overlay: rgb(255 255 255 / 0.8);
+
+    /* Rôles de couleur de la page (une seule tonalité : claire) */
+    --bg: var(--paper);
+    --fg: var(--ink);
+    --fg-body: var(--ink-2);
+    --fg-muted: var(--muted);
+    --fg-accent: var(--ink);
+    --surface: var(--paper-2);
+    --surface-hover: var(--paper-3);
+    --line: var(--rule);
+    --focus: var(--ink);
+    --fg-error: var(--ink);
+    --badge-bg: var(--ink);
+    --badge-fg: var(--white);
+  }
+}

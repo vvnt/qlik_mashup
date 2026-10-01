@@ -1,0 +1,107 @@
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-padding-top: calc(var(--header-h) + var(--sp-4));
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg-body);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    letter-spacing: var(--ls-body);
+    font-weight: var(--fw-regular);
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Titres : machine à écrire, minuscules (les données Qlik, elles, gardent leur casse). */
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--fg);
+    font-family: var(--font-type);
+    font-weight: var(--fw-regular);
+    text-transform: lowercase;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--fs-display);
+    line-height: var(--lh-display);
+    letter-spacing: var(--ls-display);
+  }
+
+  h2 {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-heading);
+    letter-spacing: var(--ls-heading);
+  }
+
+  h3 {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-title);
+    letter-spacing: var(--ls-title);
+  }
+
+  h4 {
+    font-size: var(--fs-h4);
+    line-height: var(--lh-title);
+    letter-spacing: var(--ls-title);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
+
+  strong,
+  b {
+    font-weight: var(--fw-semibold);
+    color: var(--fg);
+  }
+
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  hr {
+    border: 0;
+    border-top: var(--border) solid var(--line);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

@@ -1,0 +1,1059 @@
+/*
+ * Cartes des graphiques et indicateurs, filtres, sélections, tableau.
+ * Langage agnès b. : pas de cadre ni de fond (l'air et un filet fin séparent), titres en machine à
+ * écrire minuscules encadrés de filets, marques noires et grises, panneaux blancs à bord noir.
+ * Uniquement des tokens.
+ */
+@layer components {
+  .qcard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    padding: var(--sp-6) 0 var(--sp-5);
+    color: var(--fg-body);
+    min-width: 0;
+  }
+
+  /* Titre de carte : texte centré en machine à écrire, un filet gris de chaque côté. */
+  .qcard__title {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+    font-family: var(--font-type);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-title);
+    letter-spacing: var(--ls-title);
+    text-transform: lowercase;
+    text-align: center;
+    color: var(--fg);
+  }
+
+  .qcard__title::before,
+  .qcard__title::after {
+    content: "";
+    flex: 1;
+    min-width: var(--sp-4);
+    border-top: var(--border) solid var(--line);
+  }
+
+  /* Hauteur obligatoire : sans elle ECharts s'effondre à 0 px. clamp() évite le débordement mobile. */
+  .qcard__canvas {
+    width: 100%;
+    min-height: 14rem;
+    height: clamp(14rem, 34vh, 20rem);
+    min-width: 0;
+  }
+
+  .qcard__canvas--fixed {
+    height: clamp(18rem, 44vh, 26rem);
+  }
+
+  .qcard__empty {
+    display: grid;
+    place-items: center;
+    min-height: 14rem;
+    background: var(--surface-hover);
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+    text-align: center;
+    padding: var(--sp-4);
+  }
+
+  /* Fil d'Ariane de la hiérarchie produit. */
+  .crumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .crumbs__item + .crumbs__item::before {
+    content: "›";
+    margin-right: var(--sp-2);
+    color: var(--fg-muted);
+  }
+
+  .crumbs__link,
+  .crumbs__current {
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+  }
+
+  .crumbs__link {
+    color: var(--fg-muted);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+  }
+
+  .crumbs__link:hover {
+    color: var(--fg-accent);
+  }
+
+  .crumbs__current {
+    color: var(--fg);
+  }
+
+  .qcard__loader {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: var(--sp-5);
+    background: var(--bg);
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+    text-align: center;
+  }
+
+  .qcard.is-ready .qcard__loader {
+    display: none;
+  }
+
+  /* Emplacement vide (Lot 1) : rappelle le squelette « fantôme » de la référence. */
+  .qcard__placeholder {
+    display: grid;
+    place-items: center;
+    height: clamp(14rem, 34vh, 20rem);
+    background: var(--surface-hover);
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+    text-align: center;
+    padding: var(--sp-4);
+  }
+
+  /* Indicateur : centré, sans cadre ; un filet vertical sépare les colonnes. */
+  .qkpi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-6) var(--sp-4);
+    text-align: center;
+    min-width: 0;
+  }
+
+  .qkpi .qcard__title {
+    display: block;
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.03em;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.35em;
+  }
+
+  .qkpi .qcard__title::before,
+  .qkpi .qcard__title::after {
+    content: none;
+  }
+
+  .qkpi__value {
+    font-size: var(--fs-stat);
+    font-weight: 300;
+    line-height: var(--lh-heading);
+    letter-spacing: 0;
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .qkpi__meta {
+    font-size: var(--fs-ui);
+    letter-spacing: 0;
+    color: var(--fg-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Évolution : positive en texte courant, négative en gras (le signe − la porte déjà). */
+  .qkpi__meta.is-up {
+    color: var(--fg);
+  }
+
+  .qkpi__meta.is-down {
+    color: var(--fg);
+    font-weight: var(--fw-semibold);
+  }
+
+  @media (min-width: 48em) {
+    .kpi-strip > .qkpi + .qkpi {
+      border-left: var(--border) solid var(--line);
+    }
+  }
+
+  @media (max-width: 47.99em) {
+    .kpi-strip > .qkpi + .qkpi {
+      border-top: var(--border) solid var(--line);
+    }
+  }
+
+  /* Tableau de détail (référence : mini-visuel « BUDGET 2027 », mono, filets fins). */
+  .table-wrap {
+    max-height: 32rem;
+    scrollbar-color: var(--fg-muted) var(--bg);
+    overflow: auto;
+    min-width: 0;
+  }
+
+  .table-wrap:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .data-table {
+    width: 100%;
+    min-width: 46rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: var(--fs-ui);
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: var(--sp-3) var(--sp-4);
+    border-bottom: var(--border) solid var(--line);
+    text-align: left;
+    white-space: nowrap;
+    font-weight: var(--fw-regular);
+  }
+
+  .data-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--bg);
+    border-bottom-color: var(--ink);
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+  }
+
+  .data-table .data-table__num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg-body);
+  }
+
+  .data-table__name {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  .data-table thead .data-table__name,
+  .data-table thead th:first-child {
+    z-index: 3;
+    left: 0;
+  }
+
+  .data-table__sort,
+  .data-table__select {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--sp-8);          /* cible ≥ 24 px (WCAG 2.2, 2.5.8) */
+    gap: var(--sp-2);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: inherit;
+    text-align: inherit;
+  }
+
+  .data-table__sort:hover,
+  .data-table__select:hover {
+    color: var(--fg-accent);
+  }
+
+  /* Indicateur de tri : flèche sur la colonne active. */
+  .data-table th[aria-sort="ascending"] .data-table__sort::after {
+    content: "↑";
+    color: var(--fg-accent);
+  }
+
+  .data-table th[aria-sort="descending"] .data-table__sort::after {
+    content: "↓";
+    color: var(--fg-accent);
+  }
+
+  .data-table tbody tr {
+    cursor: pointer;
+  }
+
+  .data-table tbody tr:hover > * {
+    background: var(--surface-hover);
+  }
+
+  .data-table tbody .is-selected > * {
+    background: var(--surface-hover);
+  }
+
+  .data-table tbody .is-selected .data-table__select {
+    color: var(--fg-accent);
+  }
+
+  .data-table td.is-up {
+    color: var(--fg);
+  }
+
+  .data-table td.is-down {
+    color: var(--fg-accent);
+  }
+
+  .data-table tfoot th,
+  .data-table tfoot td {
+    position: sticky;
+    bottom: 0;
+    background: var(--bg);
+    border-top: var(--border) solid var(--ink);
+    border-bottom: 0;
+    color: var(--fg);
+  }
+
+  .data-table tfoot th {
+    z-index: 3;
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+  }
+
+  /* Icônes du sprite img/icons.svg : couleur héritée. */
+  .icon {
+    display: block;
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    /* Animations au survol : voir « Icônes : micro-animations » plus bas. */
+    transition:
+      translate var(--dur-fast) var(--ease-out),
+      rotate var(--dur-base) var(--ease-soft),
+      scale var(--dur-base) var(--ease-soft),
+      transform var(--dur-fast) var(--ease-standard),
+      color var(--dur-fast) var(--ease-standard);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Lien de l'en-tête vers l'application Qlik d'origine. */
+  .site-header__app {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-height: 2rem;
+    font-size: var(--fs-ui);
+    text-transform: lowercase;
+    text-decoration: none;
+    color: var(--fg);
+    transition: color var(--dur-fast) var(--ease-standard);
+  }
+
+  .site-header__app .icon {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .site-header__app:hover {
+    color: var(--fg-accent);
+  }
+
+  /* Bouton rond à icône seule (précédent, suivant, tout effacer). */
+  .btn--icon {
+    padding: 0;
+    width: var(--btn-h);
+    flex: none;
+  }
+
+  /* Puce : le nom du champ ouvre la liste de ses valeurs, la croix retire la sélection. */
+  .chip {
+    position: relative;
+    padding-left: 0;
+  }
+
+  .chip__main {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-height: 2rem;
+    padding: 0 var(--sp-2) 0 var(--sp-3);
+    font: inherit;
+    color: inherit;
+  }
+
+  .chip__main:hover .chip__field,
+  .chip__main:hover .icon {
+    color: var(--fg-accent);
+  }
+
+  .chip__main .icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    color: var(--fg-muted);
+  }
+
+  .chip.is-open .chip__main .icon {
+    transform: rotate(180deg);
+  }
+
+  .chip__remove .icon {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .picker {
+    z-index: var(--z-overlay);
+  }
+
+  .picker__search {
+    display: block;
+    width: 100%;
+    min-height: 2.25rem;
+    margin: 0;
+    padding: 0 var(--sp-3);
+    background: var(--paper);
+    border: var(--border) solid var(--line);
+    color: var(--fg);
+    font-size: var(--fs-ui);
+  }
+
+  .picker__note {
+    padding: var(--sp-2) var(--sp-3);
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+  }
+
+  /* Mobile : la liste d'une puce prend toute la largeur de la barre de sélections. */
+  @media (max-width: 47.99em) {
+    .selection-bar {
+      position: relative;
+    }
+
+    .chip {
+      position: static;
+    }
+
+    .chip .filter__panel {
+      left: 0;
+      right: 0;
+      max-width: none;
+    }
+  }
+
+  /* Recherche intelligente dans l'en-tête. */
+  /* Ligne des filtres : les filtres à gauche, la recherche calée à droite. */
+  .filters-row {
+    --btn-h-sm: 2.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-2) var(--sp-4);
+  }
+
+  .filters-row > .filters {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .site-search {
+    position: relative;
+    flex: 0 1 20rem;
+    min-width: 0;
+    margin-left: auto;
+  }
+
+  .site-search__icon {
+    position: absolute;
+    top: 50%;
+    left: var(--sp-4);
+    width: 1rem;
+    height: 1rem;
+    transform: translateY(-50%);
+    color: var(--fg-muted);
+    pointer-events: none;
+  }
+
+  .site-search__input {
+    width: 100%;
+    height: var(--btn-h-sm);
+    padding: 0 var(--sp-4) 0 calc(var(--sp-4) + 1.5rem);
+    background: var(--paper);
+    border: var(--border) solid var(--line);
+    border-radius: var(--radius-pill);
+    color: var(--fg);
+    font-size: var(--fs-ui);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .site-search__input::placeholder {
+    color: var(--fg-muted);
+    opacity: 1;
+  }
+
+  .site-search__input:hover,
+  .site-search__input:focus {
+    border-color: var(--fg);
+  }
+
+  /* Croix d'effacement du champ : recolorée avec les tokens (masque du fichier img/icon-close.svg). */
+  .site-search__input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--fg-muted);
+    -webkit-mask: url("../img/icon-close.svg") center / contain no-repeat;
+    mask: url("../img/icon-close.svg") center / contain no-repeat;
+    cursor: pointer;
+  }
+
+  .site-search__input::-webkit-search-cancel-button:hover {
+    background-color: var(--fg-accent);
+  }
+
+  .site-search__panel {
+    position: absolute;
+    z-index: var(--z-overlay);
+    top: calc(100% + var(--sp-2));
+    right: 0;
+    width: min(34rem, calc(100vw - 2 * var(--sp-4)));
+    max-height: 24rem;
+    overflow-y: auto;
+    scrollbar-color: var(--fg-muted) var(--bg);
+    background: var(--paper);
+    border: var(--border) solid var(--ink);
+  }
+
+  .site-search__status {
+    padding: var(--sp-3) var(--sp-4);
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+  }
+
+  .site-search__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .search__option {
+    display: grid;
+    gap: var(--sp-1);
+    padding: var(--sp-3) var(--sp-4);
+    border-top: var(--border) solid var(--line);
+    border-left: 2px solid transparent;
+    cursor: pointer;
+  }
+
+  .search__option:hover,
+  .search__option[aria-selected="true"] {
+    background: var(--surface-hover);
+  }
+
+  .search__option[aria-selected="true"] {
+    border-left-color: var(--fg-accent);
+  }
+
+  .search__line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--sp-1) var(--sp-3);
+  }
+
+  .search__field {
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+  }
+
+  .search__values {
+    font-size: var(--fs-ui);
+    color: var(--fg);
+  }
+
+  .search__values mark {
+    background: transparent;
+    color: var(--fg-accent);
+    font-weight: var(--fw-medium);
+  }
+
+  .search__more {
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    color: var(--fg-muted);
+  }
+
+  /* Petit écran : sur la première ligne, bouton « Filtres » puis recherche ; les filtres ouverts
+     passent dessous et la liste de résultats occupe toute la largeur. */
+  @media (max-width: 47.99em) {
+    .filters-row {
+      position: relative;
+    }
+
+    .filters {
+      order: 3;
+      flex: 1 1 100%;
+    }
+
+    .site-search {
+      position: static;
+      flex: 1 1 10rem;
+      max-width: none;
+      margin-left: 0;
+    }
+
+    /* La loupe est positionnée par rapport à la ligne (le champ est static pour que la liste prenne
+       toute la largeur) : elle se superposerait au bouton « filtres ». On la masque. */
+    .site-search__icon {
+      display: none;
+    }
+
+    .site-search__input {
+      padding-left: var(--sp-4);
+    }
+
+    .site-search__panel {
+      top: calc(var(--btn-h-sm) + var(--sp-2));
+      left: 0;
+      right: 0;
+      width: auto;
+    }
+  }
+
+  /* Filtre joker : liste des autres dimensions maîtres, puis leurs valeurs. */
+  .filter--more .filter__btn {
+    border-style: dashed;
+  }
+
+  .filter--more .filter__btn.has-selection {
+    border-style: solid;
+  }
+
+  /* Bouton étoile : compact, l'étoile se remplit quand une dimension du joker a une sélection. */
+  .filter--more .filter__btn {
+    padding-inline: var(--sp-3);
+    gap: var(--sp-2);
+  }
+
+  .filter--more .filter__btn.has-selection .icon {
+    --icon-fill: var(--state-selected-text);   /* lu par le symbole du sprite */
+    color: var(--state-selected-text);
+  }
+
+  .filter__panel.more {
+    min-width: 17rem;
+  }
+
+  .more__dim span {
+    flex: 1;
+    text-align: left;
+  }
+
+  .more__dim .icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    opacity: 0.65;
+  }
+
+  .more__head {
+    --more-head-h: 2.75rem;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    box-sizing: border-box;
+    height: var(--more-head-h);
+    padding: 0 var(--sp-2);
+    background: var(--paper);
+    border-bottom: var(--border) solid var(--line);
+  }
+
+  /* Niveau 2 : la recherche des valeurs se colle sous l'en-tête. */
+  .more__values .picker__bar {
+    top: 2.75rem;
+  }
+
+  .more__back {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--fg);
+  }
+
+  .more__back:hover {
+    color: var(--fg-accent);
+  }
+
+  .more__title {
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+  }
+
+  /* Liste de valeurs intégrée dans le panneau du joker : ni fenêtre ni défilement propres. */
+  .filter__panel.picker--embedded {
+    position: static;
+    min-width: 0;
+    max-height: none;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  /*
+   * Icônes : micro-animations au survol de leur bouton (et au focus clavier, pour le même retour).
+   * Chaque icône a un geste propre à sa fonction. Propriétés de transformation individuelles
+   * (translate / rotate / scale) : elles se composent avec le transform d'état (chevron retourné
+   * quand une liste est ouverte). Pas d'animation sur un bouton désactivé.
+   */
+  :is(button, a):not(:disabled):is(:hover, :focus-visible) .icon--back {
+    translate: -3px 0;                  /* la flèche recule */
+  }
+
+  :is(button, a):not(:disabled):is(:hover, :focus-visible) .icon--forward {
+    translate: 3px 0;                   /* la flèche avance */
+  }
+
+  :is(button, a):not(:disabled):is(:hover, :focus-visible) .icon--clear-all {
+    rotate: -12deg;                     /* l'entonnoir se penche pour se vider */
+    scale: 1.1;
+  }
+
+  :is(button, a):not(:disabled):is(:hover, :focus-visible) .icon--close {
+    rotate: 90deg;                      /* la croix fait un quart de tour */
+  }
+
+  :is(button, a):not(:disabled):is(:hover, :focus-visible) .icon--chevron-down {
+    translate: 0 2px;                   /* le chevron s'abaisse : la liste va s'ouvrir */
+  }
+
+  .chip.is-open .chip__main:is(:hover, :focus-visible) .icon--chevron-down {
+    translate: 0 -2px;                  /* liste ouverte (chevron retourné) : il remonte, la liste va se fermer */
+  }
+
+  :is(button, a):not(:disabled):is(:hover, :focus-visible) .icon--chevron-right {
+    translate: 3px 0;                   /* la ligne mène au niveau suivant */
+  }
+
+  :is(button, a):not(:disabled):is(:hover, :focus-visible) .icon--star {
+    rotate: 72deg;                      /* une branche d'étoile (360 / 5) */
+    scale: 1.15;
+  }
+
+  :is(button, a):not(:disabled):is(:hover, :focus-visible) .icon--external {
+    translate: 2px -2px;                /* la flèche sort en haut à droite */
+  }
+
+  .site-search:is(:hover, :focus-within) .site-search__icon {
+    scale: 1.15;                        /* la loupe s'agrandit quand le champ est actif */
+    color: var(--fg);
+  }
+
+  /* Mouvement réduit : les icônes ne bougent pas (la couleur au survol reste). */
+  @media (prefers-reduced-motion: reduce) {
+    .icon {
+      translate: none !important;
+      rotate: none !important;
+      scale: none !important;
+    }
+  }
+
+  /* Statut de connexion / erreurs. */
+  .status {
+    margin-bottom: var(--sp-6);
+    padding: var(--sp-3) var(--sp-4);
+    border: var(--border) solid var(--line);
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+  }
+
+  /* Zone de contrôle : filtres puis sélections courantes. */
+  .controls {
+    display: grid;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-8);
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .filter {
+    position: relative;
+  }
+
+  /* Bouton discret : filet fin, remplace le contour blanc de .btn--secondary. */
+  .filter__btn,
+  .selection-bar .btn {
+    gap: var(--sp-3);
+    border-width: var(--border);
+    border-color: var(--line);
+    background: var(--paper);
+    color: var(--fg-body);
+  }
+
+  .filter__btn:hover,
+  .filter__btn[aria-expanded="true"],
+  .selection-bar .btn:hover {
+    background: var(--paper);
+    border-color: var(--fg);
+    color: var(--fg);
+  }
+
+  .filter__btn.has-selection {
+    border-color: var(--state-selected-text);
+    color: var(--fg);
+  }
+
+  .filter__count {
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    color: var(--state-selected-text);
+  }
+
+  .filter__count:empty {
+    display: none;
+  }
+
+  .filter__panel {
+    position: absolute;
+    z-index: var(--z-overlay);
+    top: calc(100% + var(--sp-1));
+    left: 0;
+    min-width: 14rem;
+    max-width: min(22rem, calc(100vw - 2 * var(--sp-4)));
+    max-height: 18rem;
+    scrollbar-color: var(--fg-muted) var(--bg);
+    overflow-y: auto;
+    padding: 0;
+    background: var(--paper);
+    border: var(--border) solid var(--ink);
+  }
+
+  /* La liste porte sa propre marge : la barre de recherche colle aux bords du panneau. */
+  .filter__panel .filter__list {
+    padding: 0 var(--sp-2) var(--sp-2);
+  }
+
+  /* Zone de recherche : collée en haut du panneau, indépendante de l'ascenseur de la liste. */
+  .picker__bar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: var(--sp-2);
+    background: var(--paper);
+  }
+
+  .filters-toggle {
+    display: none;
+    justify-self: start;
+    gap: var(--sp-3);
+    border-width: var(--border);
+    border-color: var(--line);
+    color: var(--fg-body);
+  }
+
+  /* Mobile : les filtres sont repliés derrière un bouton ; le panneau d'une liste prend toute la largeur (aucun débordement). */
+  @media (max-width: 47.99em) {
+    .filters-toggle {
+      display: inline-flex;
+    }
+
+    .filters:not(.is-open) {
+      display: none;
+    }
+
+    .filters {
+      position: relative;
+    }
+
+    .filter {
+      position: static;
+    }
+
+    .filter__panel {
+      left: 0;
+      right: 0;
+      min-width: 0;
+      max-width: none;
+    }
+  }
+
+  /* Liste de valeurs : une ligne par valeur, l'état Qlik se lit sur le fond (voir states.css).
+     Au survol, seule la couleur du texte change, en fondu. */
+  .filter__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .filter__opt {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    width: 100%;
+    min-height: 2.25rem;
+    padding: 0 var(--sp-3);
+    border-bottom: var(--border) solid var(--line);
+    text-align: left;
+    font-size: var(--fs-ui);
+    background: var(--state-possible-bg);
+    color: var(--state-possible-fg);
+    transition: color var(--dur-base) var(--ease-standard);
+  }
+
+  .filter__opt:hover {
+    color: var(--state-possible-hover);
+  }
+
+  .filter__opt[data-state="S"] {
+    background: var(--state-selected-bg);
+    color: var(--state-selected-fg);
+  }
+
+  .filter__opt[data-state="S"]:hover {
+    color: var(--state-selected-hover);
+  }
+
+  .filter__opt[data-state="A"] {
+    background: var(--state-alternative-bg);
+    color: var(--state-alternative-fg);
+  }
+
+  .filter__opt[data-state="A"]:hover {
+    color: var(--state-alternative-hover);
+  }
+
+  .filter__opt[data-state="X"] {
+    background: var(--state-excluded-bg);
+    color: var(--state-excluded-fg);
+  }
+
+  .filter__opt[data-state="X"]:hover {
+    color: var(--state-excluded-hover);
+  }
+
+  /* Anneau de focus à l'intérieur de la ligne, blanc : lisible sur les quatre fonds. */
+  .filter__opt:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: -3px;
+  }
+
+  /* Barre des sélections courantes. */
+  .selection-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-3) var(--sp-4);
+    padding: var(--sp-3) 0;
+    border-block: var(--border) solid var(--line);
+  }
+
+  .selection-bar__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .selection-bar__empty {
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-height: 2rem;
+    padding-left: var(--sp-3);
+    background: var(--paper);
+    border: var(--border) solid var(--ink);
+    font-size: var(--fs-xs);
+  }
+
+  .chip__field {
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+  }
+
+  .chip__value {
+    color: var(--fg);
+  }
+
+  .chip__remove {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--fg-muted);
+  }
+
+  .chip__remove:hover {
+    color: var(--fg-accent);
+  }
+}
+
+/* Ancre du ref-api Qlik : masquée, seul son ref-api sert. Hors couches et !important : le composant impose son propre display. */
+#qlik-anchor {
+  display: none !important;
+}

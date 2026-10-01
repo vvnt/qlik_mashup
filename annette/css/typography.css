@@ -1,0 +1,51 @@
+@layer components {
+  /* Titre en deux temps : une phrase pleine, puis une phrase en gris. */
+  .title__lead {
+    color: var(--fg);
+  }
+
+  .title__rest {
+    display: block;
+    color: var(--fg-muted);
+  }
+
+  .title__accent {
+    color: var(--fg);
+  }
+
+  /* Surtitre : machine à écrire, minuscules, interlettrage large (titres du pied de page agnès b.). */
+  .eyebrow {
+    display: block;
+    font-family: var(--font-type);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.03em;
+    text-transform: lowercase;
+    color: var(--fg);
+  }
+
+  .eyebrow--mono {
+    font-family: var(--font-type);
+  }
+
+  .lead {
+    font-size: var(--fs-lead);
+    line-height: var(--lh-relaxed);
+    color: var(--fg-body);
+    max-width: var(--measure-text);
+  }
+
+  .mono {
+    font-family: var(--font-type);
+  }
+
+  /* Libellés, clés et métadonnées : machine à écrire, minuscules (une seule règle partagée). */
+  .filters__label,
+  .search-result__meta {
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: lowercase;
+    color: var(--fg-muted);
+  }
+}

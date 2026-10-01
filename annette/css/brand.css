@@ -1,0 +1,15 @@
+/*
+ * Palette « annette c. » : noir, blanc et gris, rien d'autre (valeurs relevées sur la référence,
+ * voir docs/reference.md). L'accent est le noir : contraste par aplat plein, jamais par une teinte.
+ */
+@layer tokens {
+  :root {
+    --paper: #FFFFFF;        /* fond de page, en-tête */
+    --paper-2: #F5F5F5;      /* pied de page, vignettes, surfaces */
+    --paper-3: #EBEBEB;      /* survol, valeur alternative */
+    --ink: #000000;          /* texte, boutons pleins, accent */
+    --ink-2: #222222;        /* texte courant */
+    --muted: #6B6B6B;        /* texte secondaire (5,3:1 sur blanc) */
+    --rule: #CCCCCC;         /* filets */
+  }
+}

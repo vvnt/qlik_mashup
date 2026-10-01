@@ -1,0 +1,284 @@
+/* Mise en page du mashup : en-tête, titre, grille. Mobile d'abord. */
+@layer layout {
+  .container {
+    width: var(--container);
+    margin-inline: auto;
+  }
+
+  /* Cadre étroit sur mobile : 85 % de 390 px serait trop juste pour un tableau de bord. */
+  @media (max-width: 47.99em) {
+    .container {
+      width: calc(100% - 2 * var(--sp-4));
+    }
+  }
+
+  .skip-link {
+    position: fixed;
+    top: var(--sp-3);
+    left: var(--sp-3);
+    z-index: var(--z-skip);
+    padding: var(--sp-3) var(--sp-5);
+    border-radius: var(--radius-pill);
+    background: var(--white);
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  /* En-tête : fond blanc, filet fin. Étiquette à gauche, logo manuscrit centré, lien à droite,
+     puis menu centré en minuscules (comme agnesb.com). */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: var(--paper);
+    color: var(--ink);
+    border-bottom: var(--border) solid var(--line);
+  }
+
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--sp-4);
+    height: var(--header-h);
+  }
+
+  .site-header__tag {
+    font-size: var(--fs-ui);
+    color: var(--fg-body);
+    text-transform: lowercase;
+  }
+
+  .site-header__logo {
+    display: block;
+  }
+
+  .site-header__logo img {
+    width: auto;
+    height: 2.25rem;
+  }
+
+  .site-header__meta {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .site-nav {
+    padding-bottom: var(--sp-3);
+  }
+
+  .site-nav__list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0 var(--sp-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav__list a {
+    display: block;
+    padding: var(--sp-1) var(--sp-4);
+    font-size: var(--fs-nav);
+    line-height: 1.6;
+    text-decoration: none;
+    color: var(--ink);
+    text-transform: lowercase;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .site-nav__list a:hover {
+    border-bottom-color: var(--ink);
+  }
+
+  @media (max-width: 47.99em) {
+    .site-header__tag {
+      display: none;
+    }
+
+    .site-header__inner {
+      grid-template-columns: 1fr auto;
+    }
+
+    .site-header__logo {
+      justify-self: start;
+    }
+
+    .site-header__inner {
+      height: 3.5rem;
+    }
+
+    .site-header__logo img {
+      height: 1.75rem;
+    }
+
+    .site-nav {
+      padding-bottom: var(--sp-2);
+    }
+
+    .site-nav__list {
+      flex-wrap: nowrap;
+      gap: 0;
+    }
+
+    .site-nav__list a {
+      padding: var(--sp-1) var(--sp-2);
+      font-size: var(--fs-ui);
+    }
+  }
+
+  .site-main {
+    display: block;
+    padding-block: var(--sp-10) var(--sp-12);
+    background: var(--bg);
+  }
+
+  .site-main:focus {
+    outline: none;
+  }
+
+  @media (min-width: 62em) {
+    .site-main {
+      padding-block: var(--sp-11) var(--sp-13);
+    }
+  }
+
+  /* Titre de page : texte centré en machine à écrire, un filet gris de chaque côté. */
+  .page-head {
+    margin-bottom: var(--sp-10);
+    text-align: center;
+  }
+
+  .page-head__title {
+    max-width: none;
+    font-size: var(--fs-h2);
+    line-height: var(--lh-heading);
+    letter-spacing: var(--ls-heading);
+  }
+
+  .rule-title {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+  }
+
+  .rule-title::before,
+  .rule-title::after {
+    content: "";
+    flex: 1;
+    border-top: var(--border) solid var(--line);
+  }
+
+  .page-head .title__rest {
+    margin-top: var(--sp-3);
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    letter-spacing: 0;
+  }
+
+  /* Pied de page : gris clair, discret. */
+  .site-footer {
+    background: var(--paper-2);
+    color: var(--ink);
+    padding-block: var(--sp-10) var(--sp-8);
+    font-size: var(--fs-ui);
+  }
+
+  .site-footer__mark {
+    height: 2rem;
+    width: auto;
+    margin: 0 auto var(--sp-9);
+  }
+
+  .site-footer__cols {
+    display: grid;
+    gap: var(--sp-7);
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: var(--sp-8);
+    border-bottom: var(--border) solid var(--line);
+  }
+
+  @media (min-width: 48em) {
+    .site-footer__cols {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .site-footer__title {
+    margin-bottom: var(--sp-3);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.03em;
+  }
+
+  .site-footer p,
+  .site-footer li {
+    line-height: var(--lh-relaxed);
+  }
+
+  .site-footer ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer a {
+    text-decoration: underline;
+  }
+
+  .site-footer a:hover {
+    text-decoration: none;
+  }
+
+  .site-footer__legal {
+    padding-top: var(--sp-5);
+    text-align: center;
+    font-size: var(--fs-2xs);
+    color: var(--fg-muted);
+  }
+
+  .stack {
+    display: grid;
+    gap: var(--gutter);
+  }
+
+  .stack + .stack {
+    margin-top: var(--gutter);
+  }
+
+  .kpi-strip {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 48em) {
+    .kpi-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .card-grid {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 62em) {
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card-grid > .qcard--wide {
+      grid-column: 1 / -1;
+    }
+  }
+}

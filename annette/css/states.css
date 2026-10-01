@@ -1,0 +1,32 @@
+/*
+ * États Qlik des valeurs dans les listes (filtres, puces, filtre joker), traduits en noir et gris :
+ * aucune couleur n'est propre à ce fichier, tout vient des tokens (brand.css).
+ *
+ *   sélectionnée (S)  → aplat noir, texte blanc
+ *   possible (O)      → blanc, texte noir
+ *   alternative (A)   → gris très clair, texte courant
+ *   exclue (X)        → gris clair, texte atténué (hors sélection)
+ *
+ * Au survol, seule la couleur du texte change (fondu). Chaque couple fond / texte, y compris
+ * au survol, respecte le contraste AA (4,5:1).
+ */
+@layer tokens {
+  :root {
+    --state-selected-bg: var(--ink);
+    --state-selected-fg: var(--white);
+    --state-selected-hover: var(--paper-3);
+    --state-selected-text: var(--ink);                /* filet et compteur des boutons de filtre */
+
+    --state-possible-bg: var(--paper);
+    --state-possible-fg: var(--ink);
+    --state-possible-hover: var(--muted);
+
+    --state-alternative-bg: var(--paper-2);
+    --state-alternative-fg: var(--ink-2);
+    --state-alternative-hover: var(--ink);
+
+    --state-excluded-bg: var(--paper-3);
+    --state-excluded-fg: var(--muted);
+    --state-excluded-hover: var(--ink-2);
+  }
+}
