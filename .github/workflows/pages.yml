@@ -37,8 +37,10 @@ jobs:
       - name: Assembler les sites (fichiers publics uniquement)
         shell: pwsh
         run: |
-          ./sombre/tools/build-site.ps1 -Out "$env:GITHUB_WORKSPACE/_site/sombre"
-          ./annette/tools/build-site.ps1 -Out "$env:GITHUB_WORKSPACE/_site/annette"
+          # Chemins absolus : chaque build-site.ps1 se place dans son dossier (Set-Location), un chemin relatif
+          # ne serait plus valable pour le script suivant.
+          & "$env:GITHUB_WORKSPACE/sombre/tools/build-site.ps1" -Out "$env:GITHUB_WORKSPACE/_site/sombre"
+          & "$env:GITHUB_WORKSPACE/annette/tools/build-site.ps1" -Out "$env:GITHUB_WORKSPACE/_site/annette"
           # Page d'accueil neutre : liste les mashups.
           Set-Content -Path "$env:GITHUB_WORKSPACE/_site/index.html" -Encoding utf8 -Value '<!doctype html><html lang="fr"><meta charset="utf-8"><title>Mashups Qlik</title><ul><li><a href="sombre/">sombre</a></li><li><a href="annette/">annette c.</a></li></ul></html>'
 
