@@ -138,7 +138,7 @@
 
   .site-main {
     display: block;
-    padding-block: var(--sp-10) var(--sp-12);
+    padding-block: 0 var(--sp-12);
     background: var(--bg);
   }
 
@@ -148,37 +148,41 @@
 
   @media (min-width: 62em) {
     .site-main {
-      padding-block: var(--sp-11) var(--sp-13);
+      padding-block: 0 var(--sp-13);
     }
   }
 
-  /* Titre de page : texte centré en machine à écrire, un filet gris de chaque côté. */
-  .page-head {
+  /* Bandeau d'ouverture : texte manuscrit courant en fond, titre dans un cartouche blanc (comme les
+     boutons blancs posés sur les visuels d'agnesb.com), vignettes carrées inclinées sur les côtés. */
+  .hero {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: clamp(13rem, 24vw, 19rem);
     margin-bottom: var(--sp-10);
+    padding: var(--sp-8) var(--sp-4);
+    background: var(--paper) url("../img/script.svg") center / cover no-repeat;
+    border-bottom: var(--border) solid var(--line);
+    overflow: hidden;
+  }
+
+  .hero__card {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 46rem);
+    padding: var(--sp-7) var(--sp-8);
+    background: var(--paper);
+    border: var(--border) solid var(--ink);
     text-align: center;
   }
 
   .page-head__title {
-    max-width: none;
     font-size: var(--fs-h2);
     line-height: var(--lh-heading);
     letter-spacing: var(--ls-heading);
   }
 
-  .rule-title {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-6);
-  }
-
-  .rule-title::before,
-  .rule-title::after {
-    content: "";
-    flex: 1;
-    border-top: var(--border) solid var(--line);
-  }
-
-  .page-head .title__rest {
+  .hero .title__rest {
     margin-top: var(--sp-3);
     font-family: var(--font-sans);
     font-size: var(--fs-sm);

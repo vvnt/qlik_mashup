@@ -12,3 +12,6 @@ site/
 # Pages de test sans Qlik (make-mock-page.py) : à ne jamais versionner
 _*.html
 mock-doc.js
+
+# Photos d'essai d'une marque tierce (jamais versionnées ni publiées)
+annette/tools/_src/photos/

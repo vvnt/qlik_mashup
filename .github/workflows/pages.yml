@@ -1,6 +1,6 @@
 # Publie les mashups du dépôt sur GitHub Pages à chaque poussée sur `main` (ou à la demande).
 #
-# Organisation : un dossier par mashup à la racine (aujourd'hui `sombre/`). Chaque mashup est publié sous
+# Organisation : un dossier par mashup à la racine (aujourd'hui `sombre/` et `annette/`). Chaque mashup est publié sous
 # https://<compte>.github.io/<dépôt>/<dossier>/ ; seuls les fichiers listés dans <dossier>/tools/build-site.ps1
 # sont publiés (jamais de Markdown, de maquette ni d'outil).
 #
@@ -38,8 +38,9 @@ jobs:
         shell: pwsh
         run: |
           ./sombre/tools/build-site.ps1 -Out "$env:GITHUB_WORKSPACE/_site/sombre"
-          # Page d'accueil neutre : renvoie vers le mashup.
-          Set-Content -Path "$env:GITHUB_WORKSPACE/_site/index.html" -Encoding utf8 -Value '<!doctype html><html lang="fr"><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=sombre/"><title>Mashups Qlik</title><p><a href="sombre/">Ouvrir le mashup</a></p></html>'
+          ./annette/tools/build-site.ps1 -Out "$env:GITHUB_WORKSPACE/_site/annette"
+          # Page d'accueil neutre : liste les mashups.
+          Set-Content -Path "$env:GITHUB_WORKSPACE/_site/index.html" -Encoding utf8 -Value '<!doctype html><html lang="fr"><meta charset="utf-8"><title>Mashups Qlik</title><ul><li><a href="sombre/">sombre</a></li><li><a href="annette/">annette c.</a></li></ul></html>'
 
       - name: Configurer Pages
         uses: actions/configure-pages@v5

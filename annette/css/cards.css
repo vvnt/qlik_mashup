@@ -179,13 +179,13 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Évolution : positive en texte courant, négative en gras (le signe − la porte déjà). */
+  /* Évolution : positive en texte courant, négative en rouge et en gras. */
   .qkpi__meta.is-up {
     color: var(--fg);
   }
 
   .qkpi__meta.is-down {
-    color: var(--fg);
+    color: var(--negative);
     font-weight: var(--fw-semibold);
   }
 
@@ -313,7 +313,7 @@
   }
 
   .data-table td.is-down {
-    color: var(--fg-accent);
+    color: var(--negative);
   }
 
   .data-table tfoot th,

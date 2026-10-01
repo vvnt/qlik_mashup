@@ -6,7 +6,7 @@
 // sélectionner une valeur fait descendre au niveau suivant (voir drill.js).
 //
 // Couleurs : marques grises, accent (noir) pour la valeur sélectionnée (à défaut la plus forte).
-// Évolution négative : barre creuse (fond blanc, trait noir), lisible sans couleur.
+// Évolution négative : barre et étiquette en rouge ; si elle est sélectionnée, un trait noir l'entoure.
 // Tout vient de window.QCHART_THEME (lu depuis les tokens CSS).
 
 (function () {
@@ -134,7 +134,7 @@
     };
   }
 
-  // 2. Évolution du CA N / N-1 en % : barres divergentes autour de zéro, négatif en barre creuse.
+  // 2. Évolution du CA N / N-1 en % : barres divergentes autour de zéro, négatif en rouge.
   function drawGrowth(rows, width) {
     const values = rows.map((r) => r.values[1]);
     const lo = Math.min(0, ...values.filter((v) => v != null));
@@ -143,7 +143,10 @@
     return {
       ...animation(),
       grid: { left: 0, right: T.fs.xs * 6, top: 0, bottom: 0, containLabel: true },
-      tooltip: tooltip((p) => `${esc(p.name)}<br>${fmt(p.value, { unit: 'pct-delta' })}`),
+      tooltip: tooltip((p) => {
+        const text = fmt(p.value, { unit: 'pct-delta' });
+        return `${esc(p.name)}<br>${p.value < 0 ? `<span style="color:${T.negative}">${text}</span>` : text}`;
+      }),
       xAxis: { type: 'value', show: false, min: lo < 0 ? lo - span * 0.3 : 0, max: hi },
       yAxis: categoryAxis(rows.map((r) => r.name), width),
       series: [{
@@ -162,9 +165,10 @@
           const v = values[i];
           return {
             value: v, elem: r.elem,
-            label: { position: v < 0 ? 'left' : 'right' },
-            itemStyle: r.selected ? { color: T.strong }
-              : (v < 0 ? { color: T.paper, borderColor: T.accent, borderWidth: 1.5 } : { color: T.mark }),
+            label: v < 0 ? { position: 'left', color: T.negative } : { position: 'right' },
+            itemStyle: v < 0
+              ? { color: T.negative, ...(r.selected ? { borderColor: T.strong, borderWidth: 2 } : {}) }
+              : { color: r.selected ? T.strong : T.mark },
           };
         }),
       }],

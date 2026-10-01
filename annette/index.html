@@ -61,14 +61,17 @@
   ></qlik-embed>
 
   <main class="site-main" id="main" tabindex="-1">
-    <div class="container">
-      <div class="page-head">
-        <h1 class="page-head__title">
-          <span class="title__lead rule-title"><span>chiffre d'affaires et marge</span></span>
+    <!-- Bandeau d'ouverture : texte manuscrit grisé en fond (img/script.svg), titre dans un cartouche blanc. -->
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero__card">
+        <h1 class="page-head__title" id="page-title">
+          <span class="title__lead">chiffre d'affaires et marge</span>
           <span class="title__rest">par catégorie de produit, comparés à n-1</span>
         </h1>
       </div>
+    </section>
 
+    <div class="container">
       <p class="status" id="status" role="status" aria-live="polite" hidden></p>
       <noscript><p class="status">Ce tableau de bord interroge Qlik Cloud : JavaScript est nécessaire pour afficher les données.</p></noscript>
 

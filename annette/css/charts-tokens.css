@@ -14,6 +14,7 @@
     --chart-label: var(--ink-2);
     --chart-strong: var(--ink);
     --chart-on-accent: var(--white);
+    --chart-negative: var(--negative);  /* barres et étiquettes des valeurs négatives */
     --chart-paper: var(--paper);      /* remplissage des barres « creuses » (valeurs négatives) */
     --chart-grid: var(--rule);
     --chart-tooltip-bg: var(--paper);

@@ -71,6 +71,7 @@
     strong: color('--chart-strong'),
     onAccent: color('--chart-on-accent'),
     paper: color('--chart-paper'),
+    negative: color('--chart-negative'),
     tooltipBg: color('--chart-tooltip-bg'),
     fs: { xs: size('--fs-xs'), xxs: size('--fs-2xs'), ui: size('--fs-ui') },
     sp: { s: size('--sp-2'), m: size('--sp-4'), l: size('--sp-6') },
