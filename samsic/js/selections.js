@@ -1,6 +1,8 @@
 // Barre des sélections courantes : précédent, suivant, tout effacer (icônes) et une puce par champ.
 // Un clic sur une puce ouvre la liste des valeurs du champ pour en ajouter ou en retirer
 // (voir value-picker.js) ; la croix retire toute la sélection du champ.
+// Bande des filtres collée et compactée (js/sticky-controls.js) : les puces défilent
+// horizontalement, la liste est alors placée par rapport à l'écran pour ne pas être rognée.
 
 (function () {
   'use strict';
@@ -31,11 +33,34 @@
       });
     }
 
+    const band = document.getElementById('controls-band');
+    const compact = () => !!band && band.classList.contains('is-stuck');
+    const wide = window.matchMedia('(min-width: 48em)');
+
     // La liste déborderait de l'écran à droite : on l'aligne alors sur le bord droit de la puce.
-    function keepInViewport(panel) {
+    // Bande compactée : position fixe sous la puce, bornée à l'écran.
+    function keepInViewport(panel, chip) {
+      panel.style.position = '';
+      panel.style.top = '';
       panel.style.left = '';
       panel.style.right = '';
-      if (panel.getBoundingClientRect().right > document.documentElement.clientWidth - 8) {
+      const viewport = document.documentElement.clientWidth;
+      if (compact()) {
+        const rect = chip.getBoundingClientRect();
+        panel.style.position = 'fixed';
+        panel.style.top = `${Math.round(rect.bottom + 4)}px`;
+        // Mobile : toute la largeur, 8 px de marge de chaque côté.
+        if (!wide.matches) {
+          panel.style.left = '8px';
+          panel.style.right = '8px';
+          return;
+        }
+        panel.style.right = 'auto';
+        const left = Math.min(rect.left, viewport - 8 - panel.offsetWidth);
+        panel.style.left = `${Math.max(8, Math.round(left))}px`;
+        return;
+      }
+      if (panel.getBoundingClientRect().right > viewport - 8) {
         panel.style.left = 'auto';
         panel.style.right = '0';
       }
@@ -45,7 +70,7 @@
       chip.classList.add('is-open');
       chip.querySelector('.chip__main').setAttribute('aria-expanded', 'true');
       chip.append(open.picker.el);
-      keepInViewport(open.picker.el);
+      keepInViewport(open.picker.el, chip);
     }
 
     function toggle(chip, field) {
@@ -97,6 +122,9 @@
     document.addEventListener('click', (event) => {
       if (open.field && !event.target.closest('.chip')) closePicker();
     });
+    // La bande change de forme, ou les puces défilent sous une liste fixe : on referme.
+    document.addEventListener('controls-stuck', () => { if (open.field) closePicker(); });
+    chips.addEventListener('scroll', () => { if (open.field && compact()) closePicker(); }, { passive: true });
     document.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape' || !open.field) return;
       const chip = chips.querySelector(`.chip[data-field="${CSS.escape(open.field)}"]`);

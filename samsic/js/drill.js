@@ -4,7 +4,8 @@
 // le groupe hiérarchique affiche le niveau suivant (qGroupPos). Ce module ne fait que :
 //  - afficher le fil d'Ariane construit depuis les sélections des niveaux supérieurs ;
 //  - remonter en effaçant les champs des niveaux inférieurs ;
-//  - adapter le titre des cartes au niveau courant (attribut data-title-template).
+//  - adapter le titre des cartes au niveau courant (attribut data-title-template) ;
+//  - rejouer le balayage des graphiques quand le niveau change (js/wipe.js).
 // Libellés des niveaux et des valeurs : vocabulaire Samsic (js/vocab.js).
 
 (function () {
@@ -17,6 +18,7 @@
     const nav = document.getElementById('crumbs');
     const list = document.getElementById('crumbs-list');
     const titled = Array.from(document.querySelectorAll('[data-title-template]'));
+    const levelCharts = titled.map((el) => el.closest('.qcard')).filter((card) => card && card.querySelector('[data-chart]'));
 
     const state = { pos: 0, selected: new Map() };
 
@@ -75,7 +77,9 @@
         },
       }, (layout) => {
         const info = (layout.qHyperCube.qDimensionInfo || [])[0] || {};
-        state.pos = info.qGroupPos || 0;
+        const pos = info.qGroupPos || 0;
+        if (pos !== state.pos) window.Wipe.replay(levelCharts);
+        state.pos = pos;
         render();
       }),
       window.Q.watch(doc, {

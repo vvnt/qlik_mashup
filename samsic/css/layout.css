@@ -51,14 +51,42 @@
     margin-inline: auto;
   }
 
+  /* Logo animé de samsic.com : en haut de page, grand carré (144 px) collé en haut, qui déborde sur
+     la photo ; dès que la page défile (.is-scrolled, js/header.js), il se réduit à 72 px avec une
+     marge de 10 × 15 px. Transition de 0,4 s, comme sur le site. L'emplacement garde la largeur du
+     grand logo : la signature et le menu ne bougent pas. */
+  .site-header {
+    --logo-big: 9rem;                     /* 144 px */
+    --logo-small: 4.5rem;                 /* 72 px */
+    --logo-margin: 0.375rem 0.9375rem;    /* 6 × 15 px : l'en-tête fait 80 px ici, 100 px sur le site */
+    --logo-dur: 0.4s;
+  }
+
   .site-header__logo {
-    align-self: flex-start;
+    position: relative;
+    align-self: stretch;
     flex: none;
+    width: var(--logo-big);
   }
 
   .site-header__logo img {
-    width: calc(var(--header-h) - var(--sp-2));
-    height: calc(var(--header-h) - var(--sp-2));
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: var(--logo-big);
+    height: var(--logo-big);
+    margin: 0;
+    transition:
+      width var(--logo-dur) ease,
+      height var(--logo-dur) ease,
+      margin var(--logo-dur) ease;
+  }
+
+  .site-header.is-scrolled .site-header__logo img {
+    width: var(--logo-small);
+    height: var(--logo-small);
+    margin: var(--logo-margin);
   }
 
   .site-header__tag {
@@ -127,9 +155,26 @@
       gap: 0 var(--sp-4);
     }
 
-    .site-header__logo img {
-      width: 3.5rem;
-      height: 3.5rem;
+    /* Petit écran (comme le site sous 1 190 px) : 88 px en haut de page, 48 px une fois défilé. */
+    .site-header {
+      --logo-big: 5.5rem;
+      --logo-small: 3rem;
+      --logo-margin: 0.5rem 0;
+    }
+
+    .site-header__logo {
+      height: var(--header-h);
+    }
+
+    /* Le grand logo déborde sur la ligne du menu : le menu commence à sa droite. */
+    .site-nav {
+      padding-left: calc(var(--logo-big) + var(--sp-4));
+      transition: padding-left var(--logo-dur) ease;
+    }
+
+    /* Logo réduit : il tient dans la première ligne, le menu reprend toute la largeur. */
+    .site-header.is-scrolled .site-nav {
+      padding-left: 0;
     }
 
     .site-header__meta {
@@ -164,6 +209,12 @@
   }
 
   .site-main:focus {
+    outline: none;
+  }
+
+  /* Sections atteintes par le menu (js/smooth-scroll.js) : elles reçoivent le focus pour la
+     navigation au clavier, sans cadre (ce ne sont que des points d'arrivée). */
+  .site-main [tabindex="-1"]:focus {
     outline: none;
   }
 

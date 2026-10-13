@@ -31,6 +31,8 @@
   <link rel="stylesheet" href="css/typography.css" />
   <link rel="stylesheet" href="css/button.css" />
   <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/sticky.css" />
+  <link rel="stylesheet" href="css/motion.css" />
 </head>
 <body>
   <a class="skip-link" href="#main">Aller au contenu</a>
@@ -93,9 +95,14 @@
     <div class="container">
       <p class="status" id="status" role="status" aria-live="polite" hidden></p>
       <noscript><p class="status">Ce tableau de bord interroge Qlik Cloud : JavaScript est nécessaire pour afficher les données.</p></noscript>
+    </div>
 
-      <!-- Filtres, recherche et sélections courantes : construits en JavaScript. -->
-      <section class="controls" aria-label="Filtres et sélections">
+    <!-- Filtres, recherche et sélections : bande collée sous l'en-tête pendant le défilement
+         (js/sticky-controls.js). Le repère vide juste au-dessus indique quand elle est collée ; la
+         cale qui la suit garde sa place quand elle passe en position fixe. -->
+    <div class="controls-sentinel" id="controls-sentinel" aria-hidden="true"></div>
+    <div class="controls-band" id="controls-band">
+      <section class="controls container" aria-label="Filtres et sélections">
         <div class="filters-row">
           <button type="button" class="btn btn--secondary btn--sm filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="filters" hidden>
             <span>Filtres</span><span class="filter__count" id="filters-count"></span>
@@ -122,7 +129,11 @@
           <span class="selection-bar__empty" id="sel-empty">Aucune sélection</span>
         </div>
       </section>
+    </div>
+    <div class="controls-placeholder" id="controls-placeholder" aria-hidden="true" hidden></div>
+    <div class="controls-spacer" aria-hidden="true"></div>
 
+    <div class="container">
       <!-- Métiers : bloc d'introduction (photo + texte), puis les quatre graphiques. -->
       <section class="section" id="metiers" aria-labelledby="metiers-title">
         <div class="feature">
@@ -266,7 +277,11 @@
     </div>
   </footer>
 
+  <script src="js/header.js"></script>
+  <script src="js/sticky-controls.js"></script>
+  <script src="js/smooth-scroll.js"></script>
   <script src="js/vocab.js"></script>
+  <script src="js/wipe.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/chart-kit.js"></script>
   <script src="js/qlik.js"></script>
