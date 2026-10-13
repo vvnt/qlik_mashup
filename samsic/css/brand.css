@@ -1,0 +1,23 @@
+/*
+ * Palette Samsic (valeurs relevées sur samsic.com, voir docs/reference.md).
+ * Bleu des boutons et des surtitres, ardoise du logo et du pied de page, marine du menu.
+ * Le bleu d'origine (#0081BC) donne 4,3:1 avec du blanc : il sert aux aplats et aux grands textes ;
+ * un bleu un peu plus profond porte le petit texte et les boutons (AA).
+ */
+@layer tokens {
+  :root {
+    --paper: #FFFFFF;        /* fond de page, en-tête, cartes */
+    --paper-2: #F6F6F6;      /* bandes grises, surfaces */
+    --paper-3: #E8ECEF;      /* survol, valeur exclue */
+    --slate: #333D47;        /* logo, titres, pied de page */
+    --slate-2: #4A5561;      /* texte courant */
+    --navy: #0B2239;         /* menu principal */
+    --blue: #0081BC;         /* bleu Samsic : aplats, barres, grands titres */
+    --blue-ink: #006D9F;     /* bleu pour petit texte et boutons (5,6:1 sur blanc) */
+    --blue-ink-hover: #005A84;
+    --blue-tint: #E5F2F8;    /* fond d'une valeur alternative, survol bleuté */
+    --muted: #5F6B76;        /* texte secondaire (5,4:1 sur blanc) */
+    --rule: #D9DEE3;         /* filets */
+    --negative: #C8102E;     /* valeurs négatives (5,9:1 sur blanc) */
+  }
+}
