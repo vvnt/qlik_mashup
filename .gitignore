@@ -15,3 +15,9 @@ mock-doc.js
 
 # Photos d'essai d'une marque tierce (jamais versionnées ni publiées)
 annette/tools/_src/photos/
+
+# Vidéo Samsic : dépendances, captures et rendus régénérables (voir samsic/video/package.json)
+samsic/video/node_modules/
+samsic/video/assets/captures/
+samsic/video/renders/
+samsic/video/snapshots/
