@@ -27,8 +27,9 @@
     const label = typeof source === 'string' ? V.fieldLabel(source) : source.label;
     const local = V.hasTable(field);   // recherche dans les libellés traduits
     const definition = typeof source === 'string'
-      // Ordre naturel du champ (chronologique pour les mois, alphabétique pour le texte).
-      ? { qDef: { qFieldDefs: [source], qSortCriterias: [{ qSortByNumeric: 1, qSortByAscii: 1 }] } }
+      // Valeurs possibles d'abord (état Qlik), puis ordre naturel du champ (chronologique pour les
+      // mois, alphabétique pour le texte) : une valeur utile n'est jamais noyée sous les exclues.
+      ? { qDef: { qFieldDefs: [source], qSortCriterias: [{ qSortByState: 1, qSortByNumeric: 1, qSortByAscii: 1 }] } }
       : { qLibraryId: source.libraryId };
     const el = document.createElement('div');
     el.className = 'filter__panel picker' + (opts.embedded ? ' picker--embedded' : '');

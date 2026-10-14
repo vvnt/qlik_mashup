@@ -2,7 +2,9 @@
 //
 // Qlik descend tout seul : quand une seule valeur est sélectionnée au niveau courant,
 // le groupe hiérarchique affiche le niveau suivant (qGroupPos). Ce module ne fait que :
-//  - afficher le fil d'Ariane construit depuis les sélections des niveaux supérieurs ;
+//  - afficher le fil d'Ariane construit depuis les sélections des niveaux supérieurs (ou, sans
+//    sélection à ce niveau, depuis la seule valeur restée possible : prestation choisie par la
+//    recherche, par exemple) ;
 //  - remonter en effaçant les champs des niveaux inférieurs ;
 //  - adapter le titre des cartes au niveau courant (attribut data-title-template) ;
 //  - rejouer le balayage des graphiques quand le niveau change (js/wipe.js).
@@ -20,7 +22,7 @@
     const titled = Array.from(document.querySelectorAll('[data-title-template]'));
     const levelCharts = titled.map((el) => el.closest('.qcard')).filter((card) => card && card.querySelector('[data-chart]'));
 
-    const state = { pos: 0, selected: new Map() };
+    const state = { pos: 0, selected: new Map(), possible: new Map() };
 
     async function clearFields(names) {
       for (const name of names) (await doc.getField(name)).clear();
@@ -57,7 +59,7 @@
         onClick: () => clearFields(fieldDefs),
       }));
       for (let i = 0; i < state.pos; i++) {
-        const value = state.selected.get(fieldDefs[i]) || V.fieldLabel(fieldDefs[i]);
+        const value = state.selected.get(fieldDefs[i]) || state.possible.get(fieldDefs[i]) || V.fieldLabel(fieldDefs[i]);
         items.push(crumb(value, {
           current: i === state.pos - 1,
           onClick: () => clearFields(fieldDefs.slice(i + 1)),
@@ -90,6 +92,20 @@
           .map((s) => [s.qField, V.selectionText(s)]));
         render();
       }),
+      // Niveaux supérieurs : la valeur possible quand il n'en reste qu'une.
+      ...fieldDefs.slice(0, -1).map((field) => window.Q.watch(doc, {
+        qInfo: { qType: 'mashup-drill-level' },
+        qListObjectDef: {
+          qDef: { qFieldDefs: [field] },
+          qInitialDataFetch: [{ qTop: 0, qLeft: 0, qWidth: 1, qHeight: 50 }],
+        },
+      }, (layout) => {
+        const alive = ((layout.qListObject.qDataPages[0] || {}).qMatrix || [])
+          .map((row) => row[0]).filter((cell) => cell.qState === 'S' || cell.qState === 'O');
+        if (alive.length === 1) state.possible.set(field, V.value(field, alive[0].qText));
+        else state.possible.delete(field);
+        render();
+      })),
     ]);
   }
 

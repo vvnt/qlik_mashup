@@ -113,6 +113,9 @@
         chart.resize();
       }
 
+      // Infobulle masquée avant de tout redessiner : sinon, après un clic, ECharts tente de la
+      // réafficher sous la souris dans un élément qui vient d'être détruit (erreur innerHTML).
+      chart.dispatchAction({ type: 'hideTip' });
       chart.setOption(draw(rows, chart.getWidth()), true);
       canvas.setAttribute('aria-label', `${card.querySelector('.qcard__title').textContent} : ${rows.length} valeurs, `
         + `la plus forte est ${rows[0].name}.`);
@@ -132,6 +135,7 @@
       series: [{
         type: 'bar',
         barCategoryGap: '38%',
+        barMaxWidth: T.fs.xs * 2,         // une seule valeur : pas de barre géante
         label: { show: true, position: 'right', color: T.label, fontFamily: T.fontFamily, fontSize: T.fs.xs,
           formatter: (p) => fmt(p.value, { compact: true }) },
         emphasis: { itemStyle: { color: T.markHover } },
@@ -161,6 +165,7 @@
       series: [{
         type: 'bar',
         barCategoryGap: '38%',
+        barMaxWidth: T.fs.xs * 2,         // une seule valeur : pas de barre géante
         label: {
           show: true, color: T.label, fontFamily: T.fontFamily, fontSize: T.fs.xs,
           formatter: (p) => fmt(p.value, { unit: 'pct-delta' }),
@@ -202,6 +207,7 @@
         {
           type: 'bar',
           barCategoryGap: '38%',
+          barMaxWidth: T.fs.xs * 2,       // une seule valeur : pas de barre géante
           label: {
             show: true, position: 'insideLeft', fontFamily: T.fontFamily, fontSize: T.fs.xs,
             formatter: (p) => fmt(p.value, { unit: 'pct' }),
@@ -232,6 +238,10 @@
     const on = highlights(rows);
     const maxMargin = Math.max(...rows.map((r) => r.values[2] || 0)) || 1;
     const points = rows.length <= 12;
+    // Étiquette à gauche des points de la moitié droite : elle ne sort pas du graphique.
+    const xs = rows.map((r) => r.values[0] || 0);
+    const xMin = Math.min(...xs);
+    const xMid = xMin + (Math.max(...xs) - xMin) / 2;
     return {
       ...animation(),
       grid: { left: 0, right: T.sp.l * 2, top: T.sp.m, bottom: 0, containLabel: true },
@@ -261,6 +271,7 @@
         data: rows.map((r, i) => ({
           name: r.name, elem: r.elem,
           value: [r.values[0], r.values[1], r.values[2]],
+          label: { position: rows.length > 1 && (r.values[0] || 0) > xMid ? 'left' : 'right' },
           itemStyle: { color: on[i] ? T.accent : T.mark, opacity: 0.92 },
         })),
       }],
