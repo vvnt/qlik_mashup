@@ -21,3 +21,11 @@ samsic/video/node_modules/
 samsic/video/assets/captures/
 samsic/video/renders/
 samsic/video/snapshots/
+
+# Vidéo Samsic « cinéma » : idem, plus la musique et les effets (licence Pixabay, pas de diffusion seule)
+samsic/video-cinematic/node_modules/
+samsic/video-cinematic/assets/captures/
+samsic/video-cinematic/assets/sfx/
+samsic/video-cinematic/assets/audio/
+samsic/video-cinematic/renders/
+samsic/video-cinematic/snapshots/
