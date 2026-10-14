@@ -1,6 +1,6 @@
 # Publie les mashups du dépôt sur GitHub Pages à chaque poussée sur `main` (ou à la demande).
 #
-# Organisation : un dossier par mashup à la racine (aujourd'hui `sombre/` et `annette/`). Chaque mashup est publié sous
+# Organisation : un dossier par mashup à la racine (aujourd'hui `sombre/`, `annette/` et `samsic/`). Chaque mashup est publié sous
 # https://<compte>.github.io/<dépôt>/<dossier>/ ; seuls les fichiers listés dans <dossier>/tools/build-site.ps1
 # sont publiés (jamais de Markdown, de maquette ni d'outil).
 #
@@ -41,8 +41,9 @@ jobs:
           # ne serait plus valable pour le script suivant.
           & "$env:GITHUB_WORKSPACE/sombre/tools/build-site.ps1" -Out "$env:GITHUB_WORKSPACE/_site/sombre"
           & "$env:GITHUB_WORKSPACE/annette/tools/build-site.ps1" -Out "$env:GITHUB_WORKSPACE/_site/annette"
+          & "$env:GITHUB_WORKSPACE/samsic/tools/build-site.ps1" -Out "$env:GITHUB_WORKSPACE/_site/samsic"
           # Page d'accueil neutre : liste les mashups.
-          Set-Content -Path "$env:GITHUB_WORKSPACE/_site/index.html" -Encoding utf8 -Value '<!doctype html><html lang="fr"><meta charset="utf-8"><title>Mashups Qlik</title><ul><li><a href="sombre/">sombre</a></li><li><a href="annette/">annette c.</a></li></ul></html>'
+          Set-Content -Path "$env:GITHUB_WORKSPACE/_site/index.html" -Encoding utf8 -Value '<!doctype html><html lang="fr"><meta charset="utf-8"><title>Mashups Qlik</title><ul><li><a href="sombre/">sombre</a></li><li><a href="annette/">annette c.</a></li><li><a href="samsic/">Samsic (maquette)</a></li></ul></html>'
 
       - name: Configurer Pages
         uses: actions/configure-pages@v5
