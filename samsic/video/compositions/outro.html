@@ -1,0 +1,48 @@
+<template>
+  <div id="outro-root" class="scene scene--slate" data-composition-id="outro" data-width="1920" data-height="1080">
+    <style>
+      #outro-logo { position: absolute; left: 160px; top: 0; width: 176px; height: 176px; }
+      #outro-main { position: absolute; left: 160px; top: 300px; }
+      #outro-title { font-size: 150px; color: #fff; }
+      #outro-sub { margin-top: 18px; font-size: 38px; font-weight: 300; color: rgba(255, 255, 255, 0.92); }
+      #outro-sub strong { font-weight: 500; color: #fff; }
+      #outro-words { display: flex; gap: 56px; margin-top: 54px; }
+      .word { opacity: 0; font-size: 30px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #fff; }
+      .word::before { content: ""; display: inline-block; width: 14px; height: 14px; margin-right: 14px; background: var(--blue); }
+      #outro-fictive { position: absolute; left: 160px; bottom: 96px; opacity: 0; }
+      #outro-sign { position: absolute; right: 160px; bottom: 84px; text-align: right; opacity: 0; }
+      #outro-sign p { margin-bottom: 14px; font-size: 18px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.7); }
+      #outro-sign img { width: 300px; height: auto; display: block; margin-left: auto; }
+    </style>
+    <img id="outro-logo" src="assets/images/logo.png" alt="" />
+    <div id="outro-main">
+      <h2 id="outro-title" class="display wipe-in" style="--w: 0%">Pilotage de l'activité</h2>
+      <p id="outro-sub" style="opacity: 0">un mashup Samsic, propulsé par le moteur <strong>Qlik</strong></p>
+      <div id="outro-words">
+        <span class="word">Associatif</span>
+        <span class="word">Sécurisé</span>
+        <span class="word">Instantané</span>
+      </div>
+    </div>
+    <p id="outro-fictive" class="fictive">Maquette de démonstration · données fictives</p>
+    <div id="outro-sign">
+      <p>Réalisation</p>
+      <img src="assets/images/excelcio-light.svg" alt="Excelcio" />
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#outro-logo", { y: -176 }, { y: 0, duration: 0.6, ease: "power3.out" }, 0.3);
+      SX.wipeIn(tl, "#outro-title", 0.5, 0.9);
+      SX.fadeUp(tl, "#outro-sub", 1.2, 0.6, 18);
+      gsap.utils.toArray("#outro-words .word").forEach((w, i) => SX.fadeUp(tl, w, 1.8 + i * 0.25, 0.5, 14));
+      SX.fadeUp(tl, "#outro-fictive", 2.8, 0.5, 12);
+      SX.fadeUp(tl, "#outro-sign", 3.2, 0.7, 16);
+      tl.to("#outro-root", { opacity: 0, duration: 0.6, ease: "power1.in" }, 7.4);
+      tl.set({}, {}, 8);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["outro"] = tl;
+    })();
+  </script>
+</template>

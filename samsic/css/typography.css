@@ -1,0 +1,48 @@
+@layer components {
+  /* Surtitre bleu en capitales (« LES DERNIÈRES ACTUALITÉS », « CARRIÈRES » sur samsic.com). */
+  .eyebrow {
+    display: block;
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--ls-caps);
+    text-transform: uppercase;
+    color: var(--blue-ink);
+  }
+
+  /* Titre de section : bleu, capitales, 22 px. */
+  .section-title {
+    margin-bottom: var(--sp-6);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-heading);
+    text-transform: uppercase;
+    color: var(--blue-ink);
+  }
+
+  /* Titre de bloc : ardoise, capitales, 28 px (« REJOIGNEZ-NOUS »). */
+  .block-title {
+    font-size: var(--fs-h3-lg);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-title);
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+
+  .lead {
+    font-size: var(--fs-body);
+    line-height: var(--lh-relaxed);
+    color: var(--fg-body);
+    max-width: var(--measure-text);
+  }
+
+  /* Citation en Teko léger, entre guillemets droits comme sur samsic.com. */
+  .quote {
+    font-family: var(--font-display);
+    font-size: var(--fs-quote);
+    font-weight: 300;
+    line-height: 0.92;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--fg);
+  }
+}

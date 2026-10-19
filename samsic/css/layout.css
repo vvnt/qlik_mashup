@@ -1,0 +1,461 @@
+/* Mise en page du mashup, d'après samsic.com : en-tête blanc au logo carré, bandeau photo au titre
+   barré de filets blancs, chiffres clés dans un cartouche blanc posé sur la photo, citation en Teko,
+   bande « offres » sur photo dégradée, pied de page ardoise. Mobile d'abord. */
+@layer layout {
+  .container {
+    width: var(--container);
+    margin-inline: auto;
+  }
+
+  /* Cadre étroit sur mobile : 16 px de chaque côté. */
+  @media (max-width: 47.99em) {
+    .container {
+      width: calc(100% - 2 * var(--sp-4));
+    }
+  }
+
+  .skip-link {
+    position: fixed;
+    top: var(--sp-3);
+    left: var(--sp-3);
+    z-index: var(--z-skip);
+    padding: var(--sp-3) var(--sp-5);
+    border-radius: var(--radius-pill);
+    background: var(--blue-ink);
+    color: var(--white);
+    font-size: var(--fs-ui);
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  /* ---- En-tête ------------------------------------------------------------------------------ */
+  /* Blanc, sans ombre. Logo carré ardoise collé en haut, signature en Teko, menu en capitales marine. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: var(--paper);
+    color: var(--navy);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+    width: min(100% - 2 * var(--sp-4), 92rem);
+    height: var(--header-h);
+    margin-inline: auto;
+  }
+
+  /* Logo animé de samsic.com : en haut de page, grand carré (144 px) collé en haut, qui déborde sur
+     la photo ; dès que la page défile (.is-scrolled, js/header.js), il se réduit à 72 px avec une
+     marge de 10 × 15 px. Transition de 0,4 s, comme sur le site. L'emplacement garde la largeur du
+     grand logo : la signature et le menu ne bougent pas. */
+  .site-header {
+    --logo-big: 9rem;                     /* 144 px */
+    --logo-small: 4.5rem;                 /* 72 px */
+    --logo-margin: 0.375rem 0.9375rem;    /* 6 × 15 px : l'en-tête fait 80 px ici, 100 px sur le site */
+    --logo-dur: 0.4s;
+  }
+
+  .site-header__logo {
+    position: relative;
+    align-self: stretch;
+    flex: none;
+    width: var(--logo-big);
+  }
+
+  .site-header__logo img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: var(--logo-big);
+    height: var(--logo-big);
+    margin: 0;
+    transition:
+      width var(--logo-dur) ease,
+      height var(--logo-dur) ease,
+      margin var(--logo-dur) ease;
+  }
+
+  .site-header.is-scrolled .site-header__logo img {
+    width: var(--logo-small);
+    height: var(--logo-small);
+    margin: var(--logo-margin);
+  }
+
+  .site-header__tag {
+    flex: none;
+    padding-top: 0.2em;                   /* Teko : on recentre les capitales */
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    font-weight: 300;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  .site-nav {
+    margin-left: auto;
+  }
+
+  .site-nav__list {
+    display: flex;
+    gap: 0 var(--sp-7);
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav__list a {
+    display: block;
+    padding: var(--sp-3) 0;
+    font-size: var(--fs-nav);
+    font-weight: var(--fw-medium);
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--navy);
+    border-bottom: 2px solid transparent;
+    transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .site-nav__list a:hover {
+    color: var(--blue-ink);
+    border-bottom-color: var(--blue);
+  }
+
+  .site-header__meta {
+    display: flex;
+    align-items: center;
+    padding-left: var(--sp-6);
+    border-left: var(--border) solid var(--line);
+  }
+
+  @media (max-width: 74.99em) {
+    .site-header__tag {
+      display: none;
+    }
+  }
+
+  /* Petit écran : le menu passe sous le logo et défile horizontalement. */
+  @media (max-width: 61.99em) {
+    .site-header {
+      --header-h: 4rem;
+      border-bottom: var(--border) solid var(--line);
+    }
+
+    .site-header__inner {
+      flex-wrap: wrap;
+      height: auto;
+      gap: 0 var(--sp-4);
+    }
+
+    /* Petit écran (comme le site sous 1 190 px) : 88 px en haut de page, 48 px une fois défilé. */
+    .site-header {
+      --logo-big: 5.5rem;
+      --logo-small: 3rem;
+      --logo-margin: 0.5rem 0;
+    }
+
+    .site-header__logo {
+      height: var(--header-h);
+    }
+
+    /* Le grand logo déborde sur la ligne du menu : le menu commence à sa droite. */
+    .site-nav {
+      padding-left: calc(var(--logo-big) + var(--sp-4));
+      transition: padding-left var(--logo-dur) ease;
+    }
+
+    /* Logo réduit : il tient dans la première ligne, le menu reprend toute la largeur. */
+    .site-header.is-scrolled .site-nav {
+      padding-left: 0;
+    }
+
+    .site-header__meta {
+      margin-left: auto;
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .site-nav {
+      order: 3;
+      flex: 1 1 100%;
+      margin: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .site-nav__list {
+      gap: 0 var(--sp-5);
+    }
+
+    .site-nav__list a {
+      padding: var(--sp-2) 0;
+      font-size: var(--fs-xs);
+      white-space: nowrap;
+    }
+  }
+
+  .site-main {
+    display: block;
+    padding-block: 0 var(--sp-12);
+    background: var(--bg);
+  }
+
+  .site-main:focus {
+    outline: none;
+  }
+
+  /* Sections atteintes par le menu (js/smooth-scroll.js) : elles reçoivent le focus pour la
+     navigation au clavier, sans cadre (ce ne sont que des points d'arrivée). */
+  .site-main [tabindex="-1"]:focus {
+    outline: none;
+  }
+
+  /* ---- Bandeau d'ouverture ------------------------------------------------------------------ */
+  /* Photo plein cadre voilée de noir à 30 %, titre blanc en capitales barré de deux filets blancs
+     qui filent jusqu'aux bords (slider de samsic.com). */
+  .hero {
+    position: relative;
+    display: grid;
+    align-content: center;
+    min-height: clamp(20rem, 38vw, 33rem);
+    padding: var(--sp-10) 0 var(--sp-14);
+    background:
+      linear-gradient(var(--overlay), var(--overlay)),
+      var(--slate) url("../img/hero.jpg") center 30% / cover no-repeat;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .hero__title {
+    display: grid;
+    grid-template-columns: minmax(var(--sp-4), 1fr) minmax(0, 52rem) minmax(var(--sp-4), 1fr);
+    align-items: center;
+    gap: var(--sp-6);
+    font-size: var(--fs-display);
+    line-height: var(--lh-display);
+    color: var(--white);
+  }
+
+  .hero__title::before,
+  .hero__title::after {
+    content: "";
+    border-top: 2px solid var(--white);
+  }
+
+  .hero__sub {
+    width: min(100% - 2 * var(--sp-4), 44rem);
+    margin: var(--sp-4) auto 0;
+    font-size: 1rem;
+    line-height: var(--lh-body);
+    color: rgb(255 255 255 / 0.9);
+  }
+
+  /* Chiffres clés : cartouche blanc posé à cheval sur la photo. */
+  .key-figures {
+    position: relative;
+    z-index: 2;
+    margin-top: calc(-1 * var(--sp-13));
+    margin-bottom: var(--sp-9);
+    padding: var(--sp-4) var(--sp-6);
+    background: var(--paper);
+  }
+
+  @media (max-width: 47.99em) {
+    .hero {
+      padding-bottom: var(--sp-13);
+    }
+
+    .hero__title {
+      gap: var(--sp-3);
+    }
+
+    .key-figures {
+      margin-top: calc(-1 * var(--sp-11));
+      padding: 0 var(--sp-4);
+    }
+  }
+
+  /* ---- Sections ----------------------------------------------------------------------------- */
+  .section {
+    padding-top: var(--sp-10);
+  }
+
+  .section > .section-title {
+    margin-bottom: var(--sp-6);
+  }
+
+  /* Bloc photo + texte (bloc « Carrières » de samsic.com). */
+  .feature {
+    display: grid;
+    gap: var(--sp-6) var(--gutter);
+    align-items: center;
+    margin-bottom: var(--sp-10);
+  }
+
+  @media (min-width: 48em) {
+    .feature {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+
+  .feature__media img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 555 / 310;
+    object-fit: cover;
+  }
+
+  .feature__body {
+    display: grid;
+    gap: var(--sp-3);
+    justify-items: start;
+  }
+
+  .feature__body .btn {
+    margin-top: var(--sp-5);
+  }
+
+  /* Citation, entre deux sections. */
+  .quote-band {
+    padding: var(--sp-12) 0 var(--sp-4);
+  }
+
+  /* ---- Bande « offres » et pied de page ----------------------------------------------------- */
+  .offer-band {
+    display: grid;
+    align-content: center;
+    min-height: 23.4375rem;               /* 375 px */
+    padding: var(--sp-10) 0;
+    background: var(--paper-2) url("../img/footer.jpg") center / cover no-repeat;
+    text-align: center;
+  }
+
+  .offer-band__title {
+    margin-bottom: var(--sp-6);
+    font-size: var(--fs-h2);
+    color: var(--fg);
+  }
+
+  .offer-band__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--sp-4) var(--sp-8);
+  }
+
+  .offer-band__actions .btn {
+    min-width: min(100%, 15.625rem);       /* 250 px */
+  }
+
+  .offer-band__plus {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--fg);
+  }
+
+  .site-footer {
+    background: var(--slate);
+    color: var(--white);
+    padding-block: var(--sp-10) var(--sp-6);
+    font-size: var(--fs-ui);
+  }
+
+  .site-footer__cols {
+    display: grid;
+    gap: var(--sp-7);
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: var(--sp-8);
+  }
+
+  @media (min-width: 48em) {
+    .site-footer__cols {
+      grid-template-columns: auto repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .site-footer__mark {
+    width: 4.5rem;
+    height: 4.5rem;
+    outline: 1px solid rgb(255 255 255 / 0.35);
+  }
+
+  .site-footer__title {
+    margin-bottom: var(--sp-3);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    color: var(--white);
+  }
+
+  .site-footer p,
+  .site-footer li {
+    line-height: var(--lh-relaxed);
+    color: rgb(255 255 255 / 0.85);
+  }
+
+  .site-footer ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer a {
+    color: var(--white);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    text-decoration: underline;
+  }
+
+  .site-footer :focus-visible {
+    outline-color: var(--white);
+  }
+
+  .site-footer__legal {
+    padding-top: var(--sp-6);
+    border-top: var(--border) solid rgb(255 255 255 / 0.2);
+    font-size: var(--fs-xs);
+  }
+
+  /* ---- Grilles ------------------------------------------------------------------------------ */
+  .stack {
+    display: grid;
+    gap: var(--gutter);
+  }
+
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 48em) {
+    .kpi-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .card-grid {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 62em) {
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card-grid > .qcard--wide {
+      grid-column: 1 / -1;
+    }
+  }
+}

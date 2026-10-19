@@ -1,0 +1,32 @@
+/*
+ * États Qlik des valeurs dans les listes (filtres, puces, filtre joker), aux couleurs Samsic :
+ * aucune couleur n'est propre à ce fichier, tout vient des tokens (brand.css).
+ *
+ *   sélectionnée (S)  → aplat bleu, texte blanc
+ *   possible (O)      → blanc, texte ardoise
+ *   alternative (A)   → bleu très pâle, texte courant
+ *   exclue (X)        → gris clair, texte atténué
+ *
+ * Au survol, seule la couleur du texte change (fondu). Chaque couple fond / texte, y compris
+ * au survol, respecte le contraste AA (4,5:1).
+ */
+@layer tokens {
+  :root {
+    --state-selected-bg: var(--blue-ink);
+    --state-selected-fg: var(--paper);
+    --state-selected-hover: var(--blue-tint);
+    --state-selected-text: var(--blue-ink);           /* bord et compteur des boutons de filtre */
+
+    --state-possible-bg: var(--paper);
+    --state-possible-fg: var(--slate);
+    --state-possible-hover: var(--blue-ink);
+
+    --state-alternative-bg: var(--blue-tint);
+    --state-alternative-fg: var(--slate-2);
+    --state-alternative-hover: var(--blue-ink-hover);
+
+    --state-excluded-bg: var(--paper-3);
+    --state-excluded-fg: var(--muted);
+    --state-excluded-hover: var(--slate);
+  }
+}

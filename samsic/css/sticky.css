@@ -1,0 +1,144 @@
+/*
+ * Bande des filtres, recherche et sélections : collée sous l'en-tête pendant le défilement
+ * (js/sticky-controls.js pose .is-stuck et mesure --header-offset).
+ * Collée, elle est en position fixe (hors du flux) ; une cale de même hauteur garde sa place,
+ * pour que la mise en page ne bouge jamais (voir l'explication dans le script).
+ *
+ * Collée, elle se compacte sur deux lignes, à toutes les tailles d'écran :
+ *  1. les filtres (sur mobile : le bouton « Filtres ») et la recherche ;
+ *  2. précédent / suivant / tout effacer et les puces de sélection, qui défilent horizontalement
+ *     si elles débordent (la ligne ne passe jamais à la ligne).
+ * Boutons de 30 px au lieu de 36, texte de 12 px, marges resserrées.
+ * Fond blanc, filet fin et court trait bleu en bas, comme les détails de l'en-tête de samsic.com.
+ */
+@layer components {
+  .controls-band {
+    position: relative;
+    z-index: calc(var(--z-header) - 1);
+    background: var(--paper);
+    border-bottom: var(--border) solid transparent;
+    transition: border-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .controls-band .controls {
+    position: relative;
+    margin-bottom: 0;
+  }
+
+  .controls-spacer {
+    height: var(--sp-8);
+  }
+
+  .controls-band.is-stuck {
+    position: fixed;
+    top: var(--header-offset, var(--header-h));
+    left: 0;
+    right: 0;
+    border-bottom-color: var(--line);
+  }
+
+  .controls-band.is-stuck .controls {
+    gap: var(--sp-1);
+    padding-block: var(--sp-2);
+  }
+
+  /* Court trait bleu posé sur le filet, aligné sur le contenu. */
+  .controls-band.is-stuck .controls::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 4.5rem;
+    height: 2px;
+    background: var(--blue);
+  }
+
+  /* Boutons et champ de recherche resserrés. */
+  .controls-band.is-stuck .filters-row {
+    --btn-h-sm: 1.875rem;
+    gap: var(--sp-2) var(--sp-3);
+  }
+
+  .controls-band.is-stuck .btn--sm {
+    --btn-h: 1.875rem;
+    padding-inline: var(--sp-3);
+    font-size: var(--fs-2xs);
+  }
+
+  .controls-band.is-stuck .btn--icon {
+    padding: 0;
+  }
+
+  .controls-band.is-stuck .filters {
+    gap: var(--sp-1);
+  }
+
+  /* Tablette et plus : filtres et recherche ne passent pas à la ligne. (Sur mobile, le panneau
+     des filtres ouvert doit, lui, passer sous le bouton « Filtres ».) */
+  @media (min-width: 48em) {
+    .controls-band.is-stuck :is(.filters-row, .filters) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .controls-band.is-stuck .site-search {
+    flex: 0 1 18rem;
+    min-width: 8rem;
+  }
+
+  .controls-band.is-stuck .site-search__input {
+    font-size: var(--fs-xs);
+  }
+
+  /* Ligne des sélections : une seule ligne, les puces défilent. */
+  .controls-band.is-stuck .selection-bar {
+    flex-wrap: nowrap;
+    gap: var(--sp-3);
+    padding-block: 0;
+    border-block: 0;
+  }
+
+  .controls-band.is-stuck .selection-bar__actions {
+    flex: none;
+    flex-wrap: nowrap;
+    gap: var(--sp-1);
+  }
+
+  .controls-band.is-stuck .chips {
+    flex: 1 1 auto;
+    min-width: 0;
+    flex-wrap: nowrap;
+    gap: var(--sp-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .controls-band.is-stuck .chip {
+    flex: none;
+    min-height: 1.875rem;
+  }
+
+  .controls-band.is-stuck :is(.chip__main, .chip__remove) {
+    min-height: 1.875rem;
+  }
+
+  .controls-band.is-stuck .chip__remove {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+
+  .controls-band.is-stuck .selection-bar__empty {
+    white-space: nowrap;
+  }
+
+  /* ---- Mobile : la recherche prend la place restante ; listes bornées à l'écran ------------- */
+  @media (max-width: 47.99em) {
+    .controls-band.is-stuck .site-search {
+      flex: 1 1 8rem;
+    }
+
+    .controls-band.is-stuck .filter__panel {
+      max-height: min(18rem, calc(100dvh - var(--header-offset, 4rem) - 12rem));
+    }
+  }
+}
