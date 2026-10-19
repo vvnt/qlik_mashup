@@ -1,2 +1,0 @@
-/* Ordre des couches, identique au thème Hugo excelcio (main.css). Doit être chargé en premier. */
-@layer reset, tokens, base, layout, components, utilities;
