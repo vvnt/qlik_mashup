@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>La Fournée Dorée · ventes et marges de nos gammes</title>
+  <link rel="icon" href="img/favicon.png" type="image/png" />
+
+  <!-- ECharts DOIT précéder le script Qlik : ce dernier installe un chargeur AMD (define.amd) ;
+       si ECharts s'exécute après, il s'enregistre comme module AMD et window.echarts n'existe pas. -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+
+  <!-- Configuration (dont la connexion Qlik), puis chargement du script Qlik : l'adresse de retour OAuth
+       est calculée depuis l'adresse de la page, le même fichier marche en local et une fois publié.
+       Voir js/qlik-loader.js. -->
+  <script src="js/config.js"></script>
+  <script src="js/vocab.js"></script>
+  <script src="js/qlik-loader.js"></script>
+
+  <link rel="preload" href="fonts/lilita-one-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/layers.css" />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/brand.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/charts-tokens.css" />
+  <link rel="stylesheet" href="css/states.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/typography.css" />
+  <link rel="stylesheet" href="css/button.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="site-header__top">
+      <div class="container site-header__top-inner">
+        <p class="site-header__tag">Pilotage des ventes · N / N-1</p>
+        <a class="btn btn--primary btn--sm" href="https://excelcio-capacity.eu.qlikcloud.com/sense/app/bd940433-886e-48b0-a9b1-be5b6770ee3d/overview" target="_blank" rel="noopener"><span>Ouvrir l'appli Qlik</span><svg class="icon icon--external" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-external"></use></svg><span class="visually-hidden"> (nouvel onglet)</span></a>
+        <a class="btn btn--gold btn--sm" href="#table-detail">Voir le détail</a>
+        <span class="site-header__flag"><img src="img/site/fr.svg" alt="" width="20" height="20" /><span>France</span></span>
+      </div>
+    </div>
+    <div class="site-header__main">
+      <div class="container site-header__inner">
+        <a class="site-header__logo" href="index.html" aria-label="La Fournée Dorée, accueil du tableau de bord">
+          <img src="img/site/logo.png" alt="La Fournée Dorée" width="100" height="100" />
+        </a>
+        <nav class="site-nav" aria-label="Sections de la page">
+          <ul class="site-nav__list" role="list">
+            <li><a href="#indicateurs">Nos chiffres</a></li>
+            <li><a href="#gammes">Nos gammes</a></li>
+            <li><a href="#chart-trend-revenue">Les bons moments</a></li>
+            <li><a href="#table-detail">Le détail</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Ancre du ref-api Qlik (masquée en CSS). -->
+  <qlik-embed
+    id="qlik-anchor"
+    ui="analytics/selections"
+    app-id="bd940433-886e-48b0-a9b1-be5b6770ee3d"
+  ></qlik-embed>
+
+  <main class="site-main" id="main" tabindex="-1">
+    <!-- Bandeau d'accueil : la photo de la page d'accueil du site, titre dans un cartouche translucide. -->
+    <section class="hero" aria-labelledby="page-title">
+      <div class="container">
+        <div class="hero__card">
+          <p class="hero__kicker">Ça va briocher avec La Fournée Dorée !</p>
+          <h1 class="page-head__title" id="page-title">
+            <span class="title__lead">Retrouvez les ventes et les marges de nos produits briochés</span>
+            <span class="title__rest">Chiffre d'affaires, marge et taux de marge par gamme, comparés à l'année précédente.</span>
+          </h1>
+          <a class="btn btn--primary" href="#indicateurs">Voir nos chiffres</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <p class="status" id="status" role="status" aria-live="polite" hidden></p>
+      <noscript><p class="status">Ce tableau de bord interroge Qlik Cloud : JavaScript est nécessaire pour afficher les données.</p></noscript>
+
+      <!-- Clin d'œil à la page d'accueil du site : deux pastilles qui sélectionnent une gamme (js/tastes.js). -->
+      <section class="tastes-block" id="tastes" aria-labelledby="tastes-title" hidden>
+        <header class="section-head">
+          <h2 class="section-head__title" id="tastes-title">Entre nous, vous êtes plutôt <span class="title__accent">sucré ou salé ?</span></h2>
+          <p class="section-head__lead">Choisissez votre camp : tout le tableau de bord se met à l'heure de vos envies.</p>
+        </header>
+        <div class="tastes">
+          <button type="button" class="taste" data-taste="sucre">
+            <img class="taste__img" src="img/site/sucre.png" alt="" width="208" height="208" />
+            <span class="taste__label">Plutôt sucré</span>
+            <span class="taste__hint" data-taste-hint></span>
+          </button>
+          <button type="button" class="taste" data-taste="sale">
+            <img class="taste__img" src="img/site/sale.png" alt="" width="208" height="208" />
+            <span class="taste__label">Plutôt salé</span>
+            <span class="taste__hint" data-taste-hint></span>
+          </button>
+        </div>
+      </section>
+
+      <header class="section-head" id="indicateurs-head">
+        <h2 class="section-head__title">La Fournée Dorée, <span class="title__accent">tant de bons chiffres</span></h2>
+        <p class="section-head__lead">Chaque clic sur un graphique, un filtre ou une ligne du tableau est une sélection : tout le reste suit.</p>
+      </header>
+    </div>
+
+    <div class="board">
+      <div class="container">
+        <!-- Sélections courantes et filtres : construits en JavaScript. -->
+        <section class="controls" aria-label="Filtres et sélections">
+          <div class="filters-row">
+            <button type="button" class="btn btn--secondary btn--sm filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="filters" hidden>
+              <span>Filtres</span><span class="filter__count" id="filters-count"></span>
+            </button>
+            <nav class="filters" id="filters" aria-label="Filtres" hidden></nav>
+            <div class="site-search" id="site-search" role="search" hidden>
+              <label class="visually-hidden" for="search-input">Rechercher dans les données</label>
+              <svg class="icon site-search__icon icon--search" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-search"></use></svg>
+              <input id="search-input" class="site-search__input" type="search" autocomplete="off" spellcheck="false"
+                placeholder="Une gamme, un client, une région…" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" />
+              <div class="site-search__panel" id="search-panel" hidden>
+                <p class="site-search__status" id="search-status" role="status" aria-live="polite"></p>
+                <ul class="site-search__list" id="search-results" role="listbox" aria-label="Résultats de la recherche"></ul>
+              </div>
+            </div>
+          </div>
+          <div class="selection-bar" id="selection-bar" hidden>
+            <div class="selection-bar__actions">
+              <button type="button" class="btn btn--secondary btn--sm btn--icon" id="sel-back" aria-label="Précédent" title="Précédent" disabled><svg class="icon icon--back" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-back"></use></svg></button>
+              <button type="button" class="btn btn--secondary btn--sm btn--icon" id="sel-forward" aria-label="Suivant" title="Suivant" disabled><svg class="icon icon--forward" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-forward"></use></svg></button>
+              <button type="button" class="btn btn--secondary btn--sm btn--icon" id="sel-clear" aria-label="Tout effacer" title="Tout effacer" disabled><svg class="icon icon--clear-all" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-clear-all"></use></svg></button>
+            </div>
+            <ul class="chips" id="sel-chips" role="list" aria-label="Sélections courantes"></ul>
+            <span class="selection-bar__empty" id="sel-empty">Aucune sélection</span>
+          </div>
+        </section>
+
+        <!-- Indicateurs : cartes colorées, comme les « engagements » du site. -->
+        <section class="stack" id="indicateurs" aria-label="Indicateurs">
+          <div class="kpi-strip">
+            <article class="qkpi" data-kpi="ca">
+              <img class="qkpi__picto" src="img/site/picto-ble.png" alt="" width="72" height="72" />
+              <h2 class="qcard__title">Chiffre d'affaires HT</h2>
+              <div class="qkpi__value">—</div>
+              <div class="qkpi__meta">vs N-1 —</div>
+            </article>
+            <article class="qkpi" data-kpi="margin">
+              <img class="qkpi__picto" src="img/site/picto-feuille.png" alt="" width="72" height="72" />
+              <h2 class="qcard__title">Marge</h2>
+              <div class="qkpi__value">—</div>
+              <div class="qkpi__meta">vs N-1 —</div>
+            </article>
+            <article class="qkpi" data-kpi="rate">
+              <img class="qkpi__picto" src="img/site/picto-coeur.png" alt="" width="72" height="72" />
+              <h2 class="qcard__title">Taux de marge</h2>
+              <div class="qkpi__value">—</div>
+              <div class="qkpi__meta">vs N-1 —</div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Graphiques -->
+        <section class="stack" id="gammes" aria-label="Analyse par gamme">
+          <nav class="crumbs" id="crumbs" aria-label="Niveau dans la hiérarchie des produits" hidden>
+            <ol class="crumbs__list" id="crumbs-list" role="list"></ol>
+          </nav>
+          <div class="card-grid">
+            <article class="qcard" id="chart-revenue">
+              <h2 class="qcard__title" data-title-template="CA HT · par {level}">CA HT · par gamme</h2>
+              <div class="qcard__canvas" data-chart role="img" aria-label="CA HT par gamme"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Ça chauffe au fournil…</div>
+            </article>
+            <article class="qcard" id="chart-growth">
+              <h2 class="qcard__title" data-title-template="Évolution du CA N / N-1 · par {level}">Évolution du CA N / N-1 · par gamme</h2>
+              <div class="qcard__canvas" data-chart role="img" aria-label="Évolution du CA par gamme"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Ça chauffe au fournil…</div>
+            </article>
+            <article class="qcard" id="chart-rate">
+              <h2 class="qcard__title" data-title-template="Taux de marge · par {level} (repère : N-1)">Taux de marge · par gamme (repère : N-1)</h2>
+              <div class="qcard__canvas" data-chart role="img" aria-label="Taux de marge par gamme"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Ça chauffe au fournil…</div>
+            </article>
+            <article class="qcard" id="chart-scatter">
+              <h2 class="qcard__title" data-title-template="CA × taux de marge · par {level}">CA × taux de marge · par gamme</h2>
+              <div class="qcard__canvas qcard__canvas--fixed" data-chart role="img" aria-label="CA et taux de marge par gamme"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Ça chauffe au fournil…</div>
+            </article>
+            <article class="qcard" id="chart-trend-revenue">
+              <h2 class="qcard__title">Les bons moments · CA HT par mois</h2>
+              <div class="qcard__canvas qcard__canvas--fixed" data-chart role="img" aria-label="CA HT par mois, N contre N-1"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Ça chauffe au fournil…</div>
+            </article>
+            <article class="qcard" id="chart-trend-rate">
+              <h2 class="qcard__title">Les bons moments · taux de marge par mois</h2>
+              <div class="qcard__canvas qcard__canvas--fixed" data-chart role="img" aria-label="Taux de marge par mois, N contre N-1"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Ça chauffe au fournil…</div>
+            </article>
+            <article class="qcard qcard--wide" id="table-detail">
+              <h2 class="qcard__title" data-title-template="Le détail · par {level}">Le détail · par gamme</h2>
+              <div class="table-wrap" role="region" aria-label="Tableau de détail, défilement horizontal possible" tabindex="0"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Ça chauffe au fournil…</div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <img class="site-footer__mark" src="img/site/footer-oeufs.png" alt="" width="366" height="214" />
+    <div class="container">
+      <div class="site-footer__cols">
+        <section>
+          <h2 class="visually-hidden">Dans la page</h2>
+          <ul class="site-footer__menu" role="list">
+            <li><a href="#indicateurs">Nos chiffres</a></li>
+            <li><a href="#gammes">Nos gammes</a></li>
+            <li><a href="#chart-trend-revenue">Les bons moments</a></li>
+            <li><a href="#table-detail">Le détail</a></li>
+            <li><a href="#main">Haut de la page</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2 class="site-footer__title">La Fournée Dorée</h2>
+          <p>Tableau de bord de démonstration.<br />Données fictives issues d'une application Qlik Cloud de démonstration.</p>
+        </section>
+        <section>
+          <h2 class="site-footer__title">Restez informés</h2>
+          <p>Chaque clic sur un graphique ou un filtre est une sélection Qlik.</p>
+          <a class="btn btn--gold btn--sm" href="https://excelcio-capacity.eu.qlikcloud.com/sense/app/bd940433-886e-48b0-a9b1-be5b6770ee3d/overview" target="_blank" rel="noopener">Ouvrir l'appli Qlik<span class="visually-hidden"> (nouvel onglet)</span></a>
+        </section>
+      </div>
+      <p class="site-footer__legal">Maquette réalisée par Excelcio pour La Fournée Dorée — données fictives, 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/chart-kit.js"></script>
+  <script src="js/qlik.js"></script>
+  <script src="js/kpis.js"></script>
+  <script src="js/value-list.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/value-picker.js"></script>
+  <script src="js/more-filters.js"></script>
+  <script src="js/selections.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/drill.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/trends.js"></script>
+  <script src="js/table.js"></script>
+  <script src="js/tastes.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+/* Mise en page du mashup : en-tête, bandeau d'accueil, grille, pied de page. Mobile d'abord.
+   Structure reprise de lafourneedoree.fr (voir docs/reference.md). */
+@layer layout {
+  .container {
+    width: var(--container);
+    margin-inline: auto;
+  }
+
+  /* Cadre étroit sur mobile : 85 % de 390 px serait trop juste pour un tableau de bord. */
+  @media (max-width: 47.99em) {
+    .container {
+      width: calc(100% - 2 * var(--sp-4));
+    }
+  }
+
+  .skip-link {
+    position: fixed;
+    top: var(--sp-3);
+    left: var(--sp-3);
+    z-index: var(--z-skip);
+    padding: var(--sp-3) var(--sp-5);
+    border-radius: var(--radius-pill);
+    background: var(--red);
+    color: var(--paper-3);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  /* En-tête du site : un bandeau crème (boutons ronds à droite), puis un bandeau blanc avec le
+     médaillon du logo qui déborde à gauche et le menu en capitales bordeaux. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    color: var(--ink);
+    box-shadow: 0 2px 12px rgb(76 25 19 / 0.08);
+  }
+
+  .site-header__top {
+    background: var(--paper-2);
+  }
+
+  .site-header__top-inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--sp-3);
+    min-height: 2.75rem;
+  }
+
+  .site-header__tag {
+    margin-right: auto;
+    padding-left: 7.5rem;               /* laisse la place au médaillon du logo */
+    font-family: var(--font-type);
+    font-size: var(--fs-ui);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: var(--label-case);
+    color: var(--muted);
+  }
+
+  .site-header__flag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-family: var(--font-type);
+    font-size: var(--fs-ui);
+    text-transform: var(--label-case);
+    color: var(--ink);
+  }
+
+  .site-header__flag img {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+  }
+
+  .site-header__main {
+    background: var(--paper);
+  }
+
+  .site-header__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+    min-height: 3.75rem;
+  }
+
+  .site-header__logo {
+    position: absolute;
+    top: -2.25rem;
+    left: 0;
+    z-index: 2;
+    display: block;
+    width: 6.25rem;
+    height: 6.25rem;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 2px 10px rgb(76 25 19 / 0.18);
+    transition: transform var(--dur-base) var(--ease-soft);
+  }
+
+  .site-header__logo:hover {
+    transform: rotate(-6deg) scale(1.04);
+  }
+
+  .site-header__logo img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .site-nav {
+    margin-left: 7.5rem;
+  }
+
+  .site-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--sp-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav__list a {
+    display: block;
+    padding: var(--sp-2) var(--sp-3);
+    font-family: var(--font-type);
+    font-size: 1.125rem;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    text-transform: var(--label-case);
+    color: var(--ink);
+    transition: color var(--dur-fast) var(--ease-standard);
+  }
+
+  .site-nav__list a:hover {
+    color: var(--red);
+  }
+
+  /* Tablette et mobile : comme sur le site, le bandeau crème disparaît et le logo rentre dans le cadre. */
+  @media (max-width: 61.99em) {
+    .site-header__top {
+      display: none;
+    }
+
+    .site-header__inner {
+      min-height: 4.25rem;
+    }
+
+    .site-header__logo {
+      top: 0.375rem;
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+
+    .site-nav {
+      margin-left: 4.25rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .site-nav__list {
+      flex-wrap: nowrap;
+      gap: 0;
+    }
+
+    .site-nav__list a {
+      padding: var(--sp-2);
+      font-size: var(--fs-sm);
+      white-space: nowrap;
+    }
+  }
+
+  .site-main {
+    display: block;
+    background: var(--bg);
+  }
+
+  .site-main:focus {
+    outline: none;
+  }
+
+  /* Bandeau d'accueil : la photo de la page d'accueil du site, cartouche blanc translucide à gauche. */
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: clamp(20rem, 38vw, 30rem);
+    padding-block: var(--sp-10);
+    background: var(--paper-2) url("../img/site/hero.jpg") 65% center / cover no-repeat;
+  }
+
+  .hero__card {
+    width: min(100%, 26rem);
+    padding: var(--sp-6) var(--sp-6) var(--sp-7);
+    background: var(--overlay);
+    border-radius: var(--radius-card);
+    backdrop-filter: blur(2px);
+  }
+
+  .hero__kicker {
+    display: block;
+    margin-bottom: var(--sp-4);
+    font-family: var(--font-type);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-title);
+    text-transform: var(--label-case);
+    color: var(--red);
+  }
+
+  .page-head__title {
+    font-size: clamp(1.625rem, 1.2rem + 1.2vw, 2.125rem);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+
+  .hero .title__rest {
+    margin-top: var(--sp-4);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink-2);
+  }
+
+  .hero .btn {
+    margin-top: var(--sp-6);
+  }
+
+  /* Titre de section du site : grandes capitales bordeaux centrées, petit décor rouge au-dessus. */
+  .section-head {
+    display: grid;
+    justify-items: center;
+    gap: var(--sp-2);
+    margin: var(--sp-11) auto var(--sp-7);
+    text-align: center;
+  }
+
+  .section-head::before {
+    content: "";
+    width: 3.5rem;
+    height: 2.875rem;
+    background: url("../img/site/deco-title.svg") center / contain no-repeat;
+  }
+
+  .section-head__title {
+    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-transform: var(--label-case);
+  }
+
+  .section-head__title .title__accent {
+    display: block;
+    color: var(--red);
+  }
+
+  .section-head__lead {
+    max-width: var(--measure-text);
+    color: var(--ink-2);
+    font-weight: var(--fw-medium);
+  }
+
+  /* « Sucré ou salé ? » : deux pastilles photo qui sélectionnent une gamme dans Qlik. */
+  .tastes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--sp-8) var(--sp-11);
+  }
+
+  .taste {
+    display: grid;
+    justify-items: center;
+    gap: var(--sp-4);
+    width: 15rem;
+    color: var(--ink);
+    text-align: center;
+  }
+
+  .taste__img {
+    width: 13rem;
+    height: 13rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid var(--paper);
+    box-shadow: 0 0 0 3px var(--rule);
+    transition:
+      transform var(--dur-base) var(--ease-soft),
+      box-shadow var(--dur-fast) var(--ease-standard);
+  }
+
+  .taste:hover .taste__img {
+    transform: rotate(-4deg) scale(1.03);
+  }
+
+  .taste[aria-pressed="true"] .taste__img {
+    box-shadow: 0 0 0 4px var(--red);
+  }
+
+  .taste__label {
+    font-family: var(--font-type);
+    font-size: 1.5rem;
+    line-height: 1.1;
+    text-transform: var(--label-case);
+  }
+
+  .taste__hint {
+    font-size: var(--fs-xs);
+    color: var(--muted);
+  }
+
+  /* Bande des données : fond crème « papier » du site, cartes blanches arrondies. */
+  .board {
+    padding-block: var(--sp-8) var(--sp-14);   /* le bas accueille le décor du pied de page */
+    background: var(--paper-2) url("../img/site/papyrus.jpg") center / 50rem auto repeat;
+  }
+
+  /* Pied de page : décor œufs-blé posé sur le papier, puis bande rouge rayée (red-strip du site). */
+  .site-footer {
+    position: relative;
+    padding-block: var(--sp-12) var(--sp-5);
+    background: var(--red) url("../img/site/red-strip.png") left top / auto 100% repeat-x;
+    color: var(--white);
+    font-size: var(--fs-ui);
+  }
+
+  .site-footer__mark {
+    position: absolute;
+    top: -6.5rem;
+    left: 50%;
+    width: 18rem;
+    height: auto;
+    translate: -50% 0;
+  }
+
+  .site-footer__cols {
+    display: grid;
+    gap: var(--sp-7);
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: var(--sp-8);
+    text-align: center;
+  }
+
+  @media (min-width: 48em) {
+    .site-footer__cols {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .site-footer__cols > :first-child {
+      text-align: right;
+    }
+
+    .site-footer__cols > :last-child {
+      text-align: left;
+    }
+  }
+
+  .site-footer__title {
+    margin-bottom: var(--sp-3);
+    font-size: 1.25rem;
+    color: var(--white);
+    text-transform: var(--label-case);
+  }
+
+  .site-footer p,
+  .site-footer li {
+    line-height: var(--lh-relaxed);
+  }
+
+  .site-footer ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__menu a {
+    font-family: var(--font-type);
+    font-size: var(--fs-sm);
+    text-transform: var(--label-case);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    text-decoration: underline;
+  }
+
+  .site-footer .btn {
+    margin-top: var(--sp-3);
+  }
+
+  .site-footer__legal {
+    padding-top: var(--sp-5);
+    text-align: center;
+    font-size: var(--fs-2xs);
+    color: var(--white);
+  }
+
+  .stack {
+    display: grid;
+    gap: var(--gutter);
+  }
+
+  .stack + .stack {
+    margin-top: var(--gutter);
+  }
+
+  .kpi-strip {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 48em) {
+    .kpi-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .card-grid {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 62em) {
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card-grid > .qcard--wide {
+      grid-column: 1 / -1;
+    }
+  }
+}

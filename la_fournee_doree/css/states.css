@@ -1,0 +1,31 @@
+/*
+ * États Qlik des valeurs dans les listes (filtres, puces, filtre joker), aux couleurs du site :
+ * aucune couleur n'est propre à ce fichier, tout vient des tokens (brand.css).
+ *
+ *   sélectionnée (S)  → aplat rouge brique, texte crème (comme les boutons du site)
+ *   possible (O)      → blanc, texte bordeaux
+ *   alternative (A)   → crème, texte courant
+ *   exclue (X)        → crème pêche, texte atténué (hors sélection)
+ *
+ * Chaque couple fond / texte, y compris au survol, respecte le contraste AA (4,5:1).
+ */
+@layer tokens {
+  :root {
+    --state-selected-bg: var(--red);
+    --state-selected-fg: var(--paper-3);
+    --state-selected-hover: var(--white);
+    --state-selected-text: var(--red);                /* filet et compteur des boutons de filtre */
+
+    --state-possible-bg: var(--paper);
+    --state-possible-fg: var(--ink);
+    --state-possible-hover: var(--red);
+
+    --state-alternative-bg: var(--paper-2);
+    --state-alternative-fg: var(--ink-2);
+    --state-alternative-hover: var(--ink);
+
+    --state-excluded-bg: var(--paper-3);
+    --state-excluded-fg: var(--muted);
+    --state-excluded-hover: var(--ink-2);
+  }
+}

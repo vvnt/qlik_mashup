@@ -1,0 +1,29 @@
+/*
+ * Rôles de couleur des graphiques, dérivés des tokens (brand.css).
+ * theme.js les lit avec getComputedStyle : aucune couleur en dur côté JavaScript.
+ * Langage visuel du site : N en rouge brique, N-1 en doré ; marques dorées, survol rouge.
+ */
+@layer tokens {
+  :root {
+    --chart-accent: var(--red);
+    /* Marques : doré foncé, ≥ 3:1 contre le blanc (WCAG 1.4.11). */
+    --chart-mark: #A8752F;
+    --chart-mark-hover: var(--red);
+    --chart-muted: var(--muted);
+    --chart-ink: var(--muted);
+    --chart-label: var(--ink-2);
+    --chart-strong: var(--ink);
+    --chart-on-accent: var(--paper-3);
+    --chart-negative: var(--chocolate);  /* barres et étiquettes des valeurs négatives */
+    --chart-paper: var(--paper);         /* remplissage des barres « creuses » (valeurs négatives) */
+    --chart-grid: var(--rule);
+    --chart-tooltip-bg: var(--paper);
+    --bar-row: 2.25rem;                  /* hauteur d'une barre horizontale + son espacement */
+    --chart-1: var(--red);
+    --chart-2: var(--gold);
+    --chart-3: var(--chocolate);
+    --chart-4: var(--green);
+    --chart-5: #DDA26E;
+    --chart-6: var(--paper-3);
+  }
+}

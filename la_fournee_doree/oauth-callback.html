@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Page de retour du flux OAuth2. Ce script échange le code d'autorisation
+         contre un token puis redirige automatiquement vers la page d'origine.
+         Elle ne doit jamais être ouverte directement : elle n'a de contenu que
+         lorsqu'elle reçoit ?code=...&state=... suite à une redirection Qlik. -->
+    <script
+      crossorigin="anonymous"
+      type="application/javascript"
+      data-host="excelcio-capacity.eu.qlikcloud.com"
+      src="https://cdn.jsdelivr.net/npm/@qlik/api@2/oauth-callback.iife.js"
+    ></script>
+  </head>
+</html>

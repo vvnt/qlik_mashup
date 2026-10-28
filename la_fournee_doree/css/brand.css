@@ -1,0 +1,22 @@
+/*
+ * Palette « La Fournée Dorée » (valeurs relevées sur lafourneedoree.fr, voir docs/reference.md).
+ * Rouge brique pour l'action, bordeaux profond pour les titres, doré et crème pour la chaleur.
+ */
+@layer tokens {
+  :root {
+    --paper: #FFFFFF;        /* fond de page, bandeau principal de l'en-tête */
+    --paper-2: #F2EEE2;      /* bandeau haut de l'en-tête, surfaces */
+    --paper-3: #FFE6CB;      /* crème pêche : survol, texte des boutons rouges */
+    --ink: #5D0000;          /* bordeaux : titres, menu */
+    --ink-2: #272626;        /* texte courant */
+    --muted: #6E5A4E;        /* texte secondaire (6,6:1 sur blanc) */
+    --rule: #E8DCC6;         /* filets */
+    --red: #B11116;          /* boutons, accents (7,0:1 sur blanc) */
+    --red-dark: #9E0B0F;     /* survol des boutons rouges */
+    --gold: #BB8740;         /* bouton secondaire, pied de page */
+    --gold-dark: #8A5E22;    /* doré lisible en texte (5,4:1 sur blanc) */
+    --chocolate: #4C1913;    /* troisième couleur de bouton du site */
+    --green: #006729;        /* engagement « développement durable » */
+    --negative: #B11116;     /* valeurs négatives */
+  }
+}
