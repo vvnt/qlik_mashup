@@ -194,7 +194,7 @@
     align-items: center;
     min-height: clamp(20rem, 38vw, 30rem);
     padding-block: var(--sp-10);
-    background: var(--paper-2) url("../img/site/hero.jpg") 65% center / cover no-repeat;
+    background: var(--paper-2) url("../img/marque/hero.jpg") 65% center / cover no-repeat;
   }
 
   .hero__card {
@@ -248,7 +248,7 @@
     content: "";
     width: 3.5rem;
     height: 2.875rem;
-    background: url("../img/site/deco-title.svg") center / contain no-repeat;
+    background: url("../img/marque/deco-title.svg") center / contain no-repeat;
   }
 
   .section-head__title {
@@ -321,14 +321,14 @@
   /* Bande des données : fond crème « papier » du site, cartes blanches arrondies. */
   .board {
     padding-block: var(--sp-8) var(--sp-14);   /* le bas accueille le décor du pied de page */
-    background: var(--paper-2) url("../img/site/papyrus.jpg") center / 50rem auto repeat;
+    background: var(--paper-2) url("../img/marque/papyrus.jpg") center / 50rem auto repeat;
   }
 
   /* Pied de page : décor œufs-blé posé sur le papier, puis bande rouge rayée (red-strip du site). */
   .site-footer {
     position: relative;
     padding-block: var(--sp-12) var(--sp-5);
-    background: var(--red) url("../img/site/red-strip.png") left top / auto 100% repeat-x;
+    background: var(--red) url("../img/marque/red-strip.png") left top / auto 100% repeat-x;
     color: var(--white);
     font-size: var(--fs-ui);
   }
