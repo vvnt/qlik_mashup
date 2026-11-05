@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>Lahaye Global Logistics · CA et marge par prestation</title>
+  <link rel="icon" href="img/marque/favicon.ico" sizes="48x48" />
+
+  <!-- ECharts DOIT précéder le script Qlik : ce dernier installe un chargeur AMD (define.amd) ;
+       si ECharts s'exécute après, il s'enregistre comme module AMD et window.echarts n'existe pas. -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+
+  <!-- Configuration (dont la connexion Qlik), puis chargement du script Qlik : l'adresse de retour OAuth
+       est calculée depuis l'adresse de la page, le même fichier marche en local et une fois publié.
+       Voir js/qlik-loader.js. -->
+  <script src="js/config.js"></script>
+  <script src="js/qlik-loader.js"></script>
+
+  <link rel="stylesheet" href="css/layers.css" />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/brand.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/charts-tokens.css" />
+  <link rel="stylesheet" href="css/states.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/typography.css" />
+  <link rel="stylesheet" href="css/button.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+
+  <!-- En-tête du site : logo à gauche, menu en capitales italiques séparé de filets rouges,
+       bloc rouge « Qlik » à droite (comme le bouton « Carrière »). -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="index.html" aria-label="Lahaye Global Logistics, tableau de bord">
+        <img src="img/marque/logo.png" alt="Lahaye Global Logistics" width="239" height="57" />
+      </a>
+      <nav class="site-nav" aria-label="Sections de la page">
+        <ul class="site-nav__list" role="list">
+          <li><a href="#indicateurs">Indicateurs</a></li>
+          <li><a href="#metiers">Nos métiers</a></li>
+          <li><a href="#chart-revenue">Prestations</a></li>
+          <li><a href="#chart-trend-revenue">Tendances</a></li>
+          <li><a href="#table-detail">Détail</a></li>
+        </ul>
+      </nav>
+      <a class="site-header__app" href="https://excelcio-capacity.eu.qlikcloud.com/sense/app/bd940433-886e-48b0-a9b1-be5b6770ee3d/overview" target="_blank" rel="noopener"><span class="site-header__app-label">Application Qlik</span><svg class="icon icon--external" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-external"></use></svg><span class="visually-hidden"> (ouvre l'application Qlik dans un nouvel onglet)</span></a>
+    </div>
+  </header>
+
+  <!-- Ancre du ref-api Qlik (masquée en CSS). -->
+  <qlik-embed
+    id="qlik-anchor"
+    ui="analytics/selections"
+    app-id="bd940433-886e-48b0-a9b1-be5b6770ee3d"
+  ></qlik-embed>
+
+  <main class="site-main" id="main" tabindex="-1">
+    <!-- Bandeau d'ouverture (accueil du site) : photo sombre, filets verticaux, cercles rouges,
+         titre en capitales italiques, la deuxième ligne en contour, étiquette blanche. -->
+    <section class="hero" aria-labelledby="page-title">
+      <div class="container hero__inner">
+        <p class="hero__aside" aria-hidden="true">La bonne<br />direction</p>
+        <h1 class="hero__title" id="page-title">
+          <span class="hero__line">Piloter</span>
+          <span class="hero__line hero__line--outline">l'activité</span>
+          <span class="hero__line">transport</span>
+          <span class="hero__tag">Chiffre d'affaires et marge, comparés à N-1</span>
+        </h1>
+      </div>
+    </section>
+
+    <!-- « Nos métiers à la carte » (accueil du site) : quatre cartes qui sélectionnent un métier (js/metiers.js). -->
+    <section class="metiers-block" id="metiers" aria-labelledby="metiers-title" hidden>
+      <div class="container">
+        <header class="section-head">
+          <h2 class="section-head__title" id="metiers-title">Nos métiers <span class="section-head__thin">à la carte</span></h2>
+          <p class="section-head__lead">Choisissez un métier : tout le tableau de bord se recentre sur ses prestations.</p>
+        </header>
+        <div class="metiers">
+          <button type="button" class="metier" data-metier="transport">
+            <img class="metier__img" src="img/marque/metier_transport.jpg" alt="" width="319" height="242" />
+            <span class="metier__label">Trans-<br />port</span>
+            <span class="metier__hint" data-metier-hint></span>
+            <span class="metier__cta" aria-hidden="true">Sélectionner</span>
+          </button>
+          <button type="button" class="metier" data-metier="multimodal">
+            <img class="metier__img" src="img/marque/metier_rail_route.jpg" alt="" width="313" height="242" />
+            <span class="metier__label">Multi-<br />modal</span>
+            <span class="metier__hint" data-metier-hint></span>
+            <span class="metier__cta" aria-hidden="true">Sélectionner</span>
+          </button>
+          <button type="button" class="metier" data-metier="logistique">
+            <img class="metier__img" src="img/marque/metier_logistique.jpg" alt="" width="290" height="220" />
+            <span class="metier__label">Logis-<br />tique</span>
+            <span class="metier__hint" data-metier-hint></span>
+            <span class="metier__cta" aria-hidden="true">Sélectionner</span>
+          </button>
+          <button type="button" class="metier" data-metier="palette">
+            <img class="metier__img" src="img/marque/metier_palette.jpg" alt="" width="319" height="242" />
+            <span class="metier__label">Pa-<br />lette</span>
+            <span class="metier__hint" data-metier-hint></span>
+            <span class="metier__cta" aria-hidden="true">Sélectionner</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="board">
+      <div class="container">
+        <p class="status" id="status" role="status" aria-live="polite" hidden></p>
+        <noscript><p class="status">Ce tableau de bord interroge Qlik Cloud : JavaScript est nécessaire pour afficher les données.</p></noscript>
+
+        <!-- Sélections courantes et filtres : construits en JavaScript. -->
+        <section class="controls" aria-label="Filtres et sélections">
+          <div class="filters-row">
+            <button type="button" class="btn btn--secondary btn--sm filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="filters" hidden>
+              <span>Filtres</span><span class="filter__count" id="filters-count"></span>
+            </button>
+            <nav class="filters" id="filters" aria-label="Filtres" hidden></nav>
+            <div class="site-search" id="site-search" role="search" hidden>
+              <label class="visually-hidden" for="search-input">Rechercher dans les données</label>
+              <svg class="icon site-search__icon icon--search" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-search"></use></svg>
+              <input id="search-input" class="site-search__input" type="search" autocomplete="off" spellcheck="false"
+                placeholder="Agence, prestation…" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" />
+              <div class="site-search__panel" id="search-panel" hidden>
+                <p class="site-search__status" id="search-status" role="status" aria-live="polite"></p>
+                <ul class="site-search__list" id="search-results" role="listbox" aria-label="Résultats de la recherche"></ul>
+              </div>
+            </div>
+          </div>
+          <div class="selection-bar" id="selection-bar" hidden>
+            <div class="selection-bar__actions">
+              <button type="button" class="btn btn--secondary btn--sm btn--icon" id="sel-back" aria-label="Précédent" title="Précédent" disabled><svg class="icon icon--back" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-back"></use></svg></button>
+              <button type="button" class="btn btn--secondary btn--sm btn--icon" id="sel-forward" aria-label="Suivant" title="Suivant" disabled><svg class="icon icon--forward" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-forward"></use></svg></button>
+              <button type="button" class="btn btn--secondary btn--sm btn--icon" id="sel-clear" aria-label="Tout effacer" title="Tout effacer" disabled><svg class="icon icon--clear-all" aria-hidden="true" focusable="false"><use href="img/icons.svg#icon-clear-all"></use></svg></button>
+            </div>
+            <ul class="chips" id="sel-chips" role="list" aria-label="Sélections courantes"></ul>
+            <span class="selection-bar__empty" id="sel-empty">Aucune sélection</span>
+          </div>
+        </section>
+
+        <!-- Indicateurs -->
+        <section class="stack" id="indicateurs" aria-label="Indicateurs">
+          <div class="kpi-strip">
+            <article class="qkpi" data-kpi="ca">
+              <h2 class="qcard__title">Chiffre d'affaires HT</h2>
+              <div class="qkpi__value">—</div>
+              <div class="qkpi__meta">vs N-1 —</div>
+            </article>
+            <article class="qkpi" data-kpi="margin">
+              <h2 class="qcard__title">Marge</h2>
+              <div class="qkpi__value">—</div>
+              <div class="qkpi__meta">vs N-1 —</div>
+            </article>
+            <article class="qkpi" data-kpi="rate">
+              <h2 class="qcard__title">Taux de marge</h2>
+              <div class="qkpi__value">—</div>
+              <div class="qkpi__meta">vs N-1 —</div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Graphiques -->
+        <section class="stack" aria-label="Analyse par prestation">
+          <nav class="crumbs" id="crumbs" aria-label="Niveau dans la hiérarchie des prestations" hidden>
+            <ol class="crumbs__list" id="crumbs-list" role="list"></ol>
+          </nav>
+          <div class="card-grid">
+            <article class="qcard" id="chart-revenue">
+              <h2 class="qcard__title" data-title-template="CA HT · par {level}">CA HT · par famille de prestation</h2>
+              <div class="qcard__canvas" data-chart role="img" aria-label="CA HT par famille de prestation"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Chargement…</div>
+            </article>
+            <article class="qcard" id="chart-growth">
+              <h2 class="qcard__title" data-title-template="Évolution du CA N / N-1 · par {level}">Évolution du CA N / N-1 · par famille de prestation</h2>
+              <div class="qcard__canvas" data-chart role="img" aria-label="Évolution du CA par famille de prestation"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Chargement…</div>
+            </article>
+            <article class="qcard" id="chart-rate">
+              <h2 class="qcard__title" data-title-template="Taux de marge · par {level} (repère : N-1)">Taux de marge · par famille de prestation (repère : N-1)</h2>
+              <div class="qcard__canvas" data-chart role="img" aria-label="Taux de marge par famille de prestation"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Chargement…</div>
+            </article>
+            <article class="qcard" id="chart-scatter">
+              <h2 class="qcard__title" data-title-template="CA × taux de marge · par {level}">CA × taux de marge · par famille de prestation</h2>
+              <div class="qcard__canvas qcard__canvas--fixed" data-chart role="img" aria-label="CA et taux de marge par famille de prestation"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Chargement…</div>
+            </article>
+            <article class="qcard" id="chart-trend-revenue">
+              <h2 class="qcard__title">Tendance · CA HT par mois</h2>
+              <div class="qcard__canvas qcard__canvas--fixed" data-chart role="img" aria-label="CA HT par mois, N contre N-1"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Chargement…</div>
+            </article>
+            <article class="qcard" id="chart-trend-rate">
+              <h2 class="qcard__title">Tendance · taux de marge par mois</h2>
+              <div class="qcard__canvas qcard__canvas--fixed" data-chart role="img" aria-label="Taux de marge par mois, N contre N-1"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Chargement…</div>
+            </article>
+            <article class="qcard qcard--wide" id="table-detail">
+              <h2 class="qcard__title" data-title-template="Détail · par {level}">Détail · par famille de prestation</h2>
+              <div class="table-wrap" role="region" aria-label="Tableau de détail, défilement horizontal possible" tabindex="0"></div>
+              <p class="qcard__empty" hidden>Aucune donnée pour cette sélection</p>
+              <div class="qcard__loader">Chargement…</div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Exergue (accueil du site) : camion Lahaye dans les champs, citation en blanc. -->
+    <figure class="exergue">
+      <blockquote class="exergue__quote">
+        <p>«&nbsp;Un engagement de tous les collaborateurs pour le développement d'un transport propre et durable.&nbsp;»</p>
+      </blockquote>
+    </figure>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <img class="site-footer__mark" src="img/marque/logo.png" alt="" width="239" height="57" />
+      <div class="site-footer__cols">
+        <section>
+          <h2 class="site-footer__title">Le tableau de bord</h2>
+          <p>Chiffre d'affaires, marge et taux de marge par métier, famille de prestation et agence, comparés à l'année précédente.</p>
+        </section>
+        <section>
+          <h2 class="site-footer__title">Les données</h2>
+          <p>Application Qlik Cloud « Distribution démo », présentée avec le vocabulaire transport. Chaque clic sur un graphique ou un filtre est une sélection Qlik.</p>
+        </section>
+        <section>
+          <h2 class="site-footer__title">Liens</h2>
+          <ul class="site-footer__menu" role="list">
+            <li><a href="https://excelcio-capacity.eu.qlikcloud.com/sense/app/bd940433-886e-48b0-a9b1-be5b6770ee3d/overview" target="_blank" rel="noopener">Ouvrir l'application Qlik</a></li>
+            <li><a href="https://www.lahaye-global-logistics.com/" target="_blank" rel="noopener">lahaye-global-logistics.com</a></li>
+            <li><a href="#main">Haut de la page</a></li>
+          </ul>
+        </section>
+      </div>
+      <p class="site-footer__legal">© 2026 Lahaye Global Logistics — maquette de démonstration, données fictives</p>
+    </div>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/chart-kit.js"></script>
+  <script src="js/vocab.js"></script>
+  <script src="js/qlik.js"></script>
+  <script src="js/kpis.js"></script>
+  <script src="js/value-list.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/value-picker.js"></script>
+  <script src="js/more-filters.js"></script>
+  <script src="js/selections.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/metiers.js"></script>
+  <script src="js/drill.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/trends.js"></script>
+  <script src="js/table.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

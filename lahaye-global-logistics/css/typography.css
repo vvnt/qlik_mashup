@@ -1,0 +1,51 @@
+@layer components {
+  /* Titre en deux temps : une phrase pleine, puis une phrase en gris. */
+  .title__lead {
+    color: var(--fg);
+  }
+
+  .title__rest {
+    display: block;
+    color: var(--fg-muted);
+  }
+
+  .title__accent {
+    color: var(--red);
+  }
+
+  /* Surtitre : capitales fines rouges (« À LA CARTE » du site). */
+  .eyebrow {
+    display: block;
+    font-family: var(--font-type);
+    font-size: var(--fs-ui);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: var(--label-case);
+    color: var(--red);
+  }
+
+  .eyebrow--mono {
+    font-family: var(--font-type);
+  }
+
+  .lead {
+    font-size: var(--fs-lead);
+    line-height: var(--lh-relaxed);
+    color: var(--fg-body);
+    max-width: var(--measure-text);
+  }
+
+  .mono {
+    font-family: var(--font-type);
+  }
+
+  /* Libellés, clés et métadonnées : machine à écrire, minuscules (une seule règle partagée). */
+  .filters__label,
+  .search-result__meta {
+    font-family: var(--font-type);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-mono-caps);
+    text-transform: var(--label-case);
+    color: var(--fg-muted);
+  }
+}

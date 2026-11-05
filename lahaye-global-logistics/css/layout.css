@@ -1,0 +1,517 @@
+/* Mise en page du mashup Lahaye Global Logistics : en-tête, bandeau, métiers, données, exergue,
+   pied de page. Mobile d'abord. Repères relevés sur lahaye-global-logistics.com (docs/reference.md). */
+@layer layout {
+  .container {
+    width: var(--container);
+    margin-inline: auto;
+  }
+
+  @media (max-width: 47.99em) {
+    .container {
+      width: calc(100% - 2 * var(--sp-4));
+    }
+  }
+
+  .skip-link {
+    position: fixed;
+    top: var(--sp-3);
+    left: var(--sp-3);
+    z-index: var(--z-skip);
+    padding: var(--sp-3) var(--sp-5);
+    background: var(--white);
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  /* ---- En-tête : logo à gauche, menu séparé par des filets rouges, bloc rouge à droite ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 1px 0 var(--rule);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: stretch;
+    gap: var(--sp-4);
+    height: var(--header-h);
+    padding-left: clamp(var(--sp-4), 3vw, var(--sp-9));
+  }
+
+  .site-header__logo {
+    display: flex;
+    align-items: center;
+    flex: none;
+    margin-right: auto;
+  }
+
+  .site-header__logo img {
+    width: auto;
+    height: 2.5rem;
+  }
+
+  .site-nav {
+    display: flex;
+    min-width: 0;
+  }
+
+  .site-nav__list {
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav__list li {
+    display: flex;
+    border-left: var(--border) solid var(--red);
+  }
+
+  .site-nav__list a {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--sp-4);
+    font-size: var(--fs-xs);
+    font-style: italic;
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    text-transform: var(--label-case);
+    color: var(--ink);
+    white-space: nowrap;
+    transition: color var(--dur-fast) var(--ease-standard);
+  }
+
+  .site-nav__list a:hover {
+    color: var(--red);
+  }
+
+  /* Mobile : le menu passe sous la barre, défilable horizontalement. */
+  @media (max-width: 61.99em) {
+    .site-header__inner {
+      flex-wrap: wrap;
+      height: auto;
+      padding-left: var(--sp-4);
+    }
+
+    .site-header__logo {
+      height: 3.5rem;
+    }
+
+    .site-header__logo img {
+      height: 2rem;
+    }
+
+    .site-nav {
+      order: 3;
+      flex-basis: 100%;
+      margin-left: calc(-1 * var(--sp-4));
+      border-top: var(--border) solid var(--rule);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .site-nav__list li:first-child {
+      border-left: 0;
+    }
+
+    .site-nav__list a {
+      padding: var(--sp-3) var(--sp-4);
+    }
+  }
+
+  .site-main {
+    display: block;
+    background: var(--bg);
+  }
+
+  .site-main:focus {
+    outline: none;
+  }
+
+  /* ---- Bandeau d'ouverture : photo sombre, filets verticaux, cercles rouges ----------------------- */
+  .hero {
+    --hero-lines: repeating-linear-gradient(90deg, transparent 0 calc(20% - 1px), rgb(255 255 255 / 0.14) calc(20% - 1px) 20%);
+    position: relative;
+    display: grid;
+    align-items: center;
+    min-height: clamp(20rem, 38vw, 30rem);
+    padding-block: var(--sp-11);
+    background:
+      var(--hero-lines),
+      linear-gradient(90deg, rgb(27 27 28 / 0.94) 0%, rgb(27 27 28 / 0.78) 45%, rgb(27 27 28 / 0.35) 100%),
+      var(--night) url("../img/marque/lahaye-global-logistics-visuel-header-accueil.jpg") center 30% / cover no-repeat;
+    color: var(--white);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Deux cercles rouges concentriques (accueil du site). */
+  .hero::before,
+  .hero::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    right: clamp(-6rem, 6vw, 10rem);
+    border: 3px solid var(--red);
+    border-radius: 50%;
+    translate: 0 -50%;
+  }
+
+  .hero::before {
+    width: clamp(12rem, 24vw, 19rem);
+    aspect-ratio: 1;
+  }
+
+  .hero::after {
+    width: clamp(7rem, 14vw, 11rem);
+    aspect-ratio: 1;
+    margin-right: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .hero__inner {
+    display: flex;
+    align-items: center;
+    gap: clamp(var(--sp-5), 4vw, var(--sp-10));
+  }
+
+  /* « La bonne direction » et ses chevrons rouges, à gauche du titre. */
+  .hero__aside {
+    flex: none;
+    display: grid;
+    justify-items: center;
+    gap: var(--sp-4);
+    font-size: var(--fs-2xs);
+    font-style: italic;
+    font-weight: var(--fw-title);
+    line-height: 1.3;
+    text-align: center;
+    text-transform: var(--label-case);
+  }
+
+  .hero__aside::after {
+    content: "";
+    width: 1.25rem;
+    height: 5.5rem;
+    background: url("../img/marque/home_fleches_rouges.png") center / contain no-repeat;
+  }
+
+  @media (max-width: 47.99em) {
+    .hero__aside {
+      display: none;
+    }
+  }
+
+  .hero__title {
+    display: grid;
+    justify-items: start;
+    font-size: var(--fs-display);
+    line-height: 0.98;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    text-transform: var(--label-case);
+  }
+
+  .hero__line--outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--white);
+    paint-order: stroke fill;
+  }
+
+  .hero__tag {
+    margin-top: var(--sp-5);
+    padding: var(--sp-2) var(--sp-3) var(--sp-1);
+    background: var(--white);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-title);
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  /* ---- Titres de section : capitales italiques très grasses + complément fin rouge ----------- */
+  .section-head {
+    display: grid;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-8);
+  }
+
+  .section-head__title {
+    font-size: var(--fs-h2);
+    text-transform: var(--label-case);
+  }
+
+  .section-head__thin {
+    display: block;
+    font-size: 0.7em;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--red);
+  }
+
+  .section-head__lead {
+    max-width: var(--measure-text);
+    color: var(--fg-body);
+  }
+
+  /* ---- « Nos métiers à la carte » : photo de route, cartes blanches translucides --------------- */
+  .metiers-block {
+    padding-block: var(--sp-11);
+    background:
+      linear-gradient(rgb(27 27 28 / 0.55), rgb(27 27 28 / 0.25)),
+      var(--night) url("../img/marque/home_fond-2.jpg") center 60% / cover no-repeat;
+  }
+
+  .metiers-block .section-head__title,
+  .metiers-block .section-head__lead {
+    color: var(--white);
+  }
+
+  .metiers {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 36em) {
+    .metiers {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 62em) {
+    .metiers {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .metier {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--sp-3);
+    padding: var(--sp-5) var(--sp-5) var(--sp-4);
+    background: rgb(255 255 255 / 0.88);
+    backdrop-filter: blur(4px);
+    border-bottom: 4px solid transparent;
+    color: var(--ink);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-standard),
+      border-color var(--dur-fast) var(--ease-standard),
+      translate var(--dur-base) var(--ease-soft);
+  }
+
+  .metier:hover {
+    background: var(--paper);
+    translate: 0 -4px;
+  }
+
+  .metier[aria-pressed="true"] {
+    background: var(--paper);
+    border-bottom-color: var(--red);
+  }
+
+  .metier__img {
+    width: 100%;
+    height: 9rem;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .metier__label {
+    font-size: clamp(2rem, 1.6rem + 1.2vw, 2.75rem);
+    font-style: italic;
+    font-weight: var(--fw-title);
+    line-height: 0.95;
+    text-transform: var(--label-case);
+  }
+
+  .metier__hint {
+    font-size: var(--fs-xs);
+    line-height: var(--lh-body);
+    color: var(--ink-2);
+  }
+
+  .metier__cta {
+    padding-bottom: var(--sp-2);
+    border-bottom: var(--border) solid var(--red);
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.05em;
+    text-transform: var(--label-case);
+    color: var(--red);
+  }
+
+  .metier[aria-pressed="true"] .metier__cta {
+    border-bottom-color: transparent;
+    color: var(--ink);
+  }
+
+  .metier[aria-pressed="true"] .metier__cta::before {
+    content: "✓ ";
+  }
+
+  /* ---- Bande des données : gris clair du site, filets verticaux discrets -------------------- */
+  .board {
+    padding-block: var(--sp-10) var(--sp-12);
+    background:
+      repeating-linear-gradient(90deg, transparent 0 calc(20% - 1px), rgb(40 40 41 / 0.05) calc(20% - 1px) 20%),
+      var(--paper-2);
+  }
+
+  /* ---- Exergue : camion Lahaye dans les champs, citation (Fira Sans, substitut d'iskra) ------- */
+  /* Citation dans le ciel, camion visible dessous (comme sur le site). */
+  .exergue {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    min-height: clamp(22rem, 42vw, 34rem);
+    margin: 0;
+    padding: var(--sp-10) var(--sp-4);
+    background:
+      linear-gradient(rgb(27 27 28 / 0.3), rgb(27 27 28 / 0) 55%),
+      var(--night) url("../img/marque/home_exergue_fixed.jpg") center 72% / cover no-repeat;
+  }
+
+  .exergue__quote {
+    max-width: 52rem;
+    font-family: var(--font-quote);
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.25;
+    text-align: center;
+    color: var(--white);
+    text-shadow: 0 2px 18px rgb(0 0 0 / 0.45);
+  }
+
+  /* ---- Pied de page : blanc, filet rouge, quart de cercle du site en décor ------------------ */
+  .site-footer {
+    position: relative;
+    padding-block: var(--sp-10) var(--sp-6);
+    background: var(--paper);
+    border-top: 4px solid var(--red);
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .site-footer::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    right: -4rem;
+    bottom: -4rem;
+    width: 20rem;
+    aspect-ratio: 1;
+    background: url("../img/marque/quart.png") right bottom / contain no-repeat;
+    opacity: 0.8;
+    rotate: 180deg;
+  }
+
+  .site-footer__mark {
+    height: 2.75rem;
+    width: auto;
+    margin-bottom: var(--sp-8);
+  }
+
+  .site-footer__cols {
+    display: grid;
+    gap: var(--sp-7);
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: var(--sp-8);
+    border-bottom: var(--border) solid var(--rule);
+  }
+
+  @media (min-width: 48em) {
+    .site-footer__cols {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .site-footer__title {
+    margin-bottom: var(--sp-3);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.02em;
+    text-transform: var(--label-case);
+  }
+
+  .site-footer p,
+  .site-footer li {
+    line-height: var(--lh-relaxed);
+  }
+
+  .site-footer ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__menu a {
+    font-size: var(--fs-xs);
+    font-style: italic;
+    font-weight: var(--fw-semibold);
+    text-transform: var(--label-case);
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .site-footer__menu a:hover {
+    color: var(--red);
+  }
+
+  .site-footer__legal {
+    padding-top: var(--sp-5);
+    font-size: var(--fs-2xs);
+    color: var(--fg-muted);
+  }
+
+  /* ---- Grilles ------------------------------------------------------------------------------ */
+  .stack {
+    display: grid;
+    gap: var(--gutter);
+  }
+
+  .stack + .stack {
+    margin-top: var(--gutter);
+  }
+
+  .kpi-strip {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 48em) {
+    .kpi-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .card-grid {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 62em) {
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card-grid > .qcard--wide {
+      grid-column: 1 / -1;
+    }
+  }
+}

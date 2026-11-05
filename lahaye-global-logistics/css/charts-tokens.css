@@ -1,0 +1,29 @@
+/*
+ * Rôles de couleur des graphiques, dérivés des tokens (brand.css).
+ * theme.js les lit avec getComputedStyle : aucune couleur en dur côté JavaScript.
+ * Langage visuel Lahaye : N en rouge Lahaye, N-1 en gris, valeurs négatives en anthracite (barres creuses).
+ */
+@layer tokens {
+  :root {
+    --chart-accent: var(--red);
+    /* Marques : gris moyen, ≥ 3:1 contre le blanc (WCAG 1.4.11). */
+    --chart-mark: var(--grey-mark);
+    --chart-mark-hover: var(--red);
+    --chart-muted: var(--muted);
+    --chart-ink: var(--muted);
+    --chart-label: var(--ink-2);
+    --chart-strong: var(--ink);
+    --chart-on-accent: var(--white);
+    --chart-negative: var(--negative);  /* barres et étiquettes des valeurs négatives */
+    --chart-paper: var(--paper);      /* remplissage des barres « creuses » (valeurs négatives) */
+    --chart-grid: var(--rule);
+    --chart-tooltip-bg: var(--paper);
+    --bar-row: 2.25rem;               /* hauteur d'une barre horizontale + son espacement */
+    --chart-1: var(--red);
+    --chart-2: var(--ink);
+    --chart-3: var(--grey-mark);
+    --chart-4: #C4C4C4;
+    --chart-5: #E0E0E0;
+    --chart-6: var(--paper-3);
+  }
+}
