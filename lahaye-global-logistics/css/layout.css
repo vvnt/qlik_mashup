@@ -330,8 +330,16 @@
     mix-blend-mode: multiply;
   }
 
+  /* Nom du métier sur une seule ligne, sans césure : la taille suit la largeur de la carte
+     (« MULTIMODAL », le plus long, occupe environ 7 em en Overpass 900 italique). */
+  .metier {
+    container-type: inline-size;
+  }
+
   .metier__label {
-    font-size: clamp(2rem, 1.6rem + 1.2vw, 2.75rem);
+    font-size: min(2.5rem, 12.5cqi);
+    white-space: nowrap;
+    hyphens: none;
     font-style: italic;
     font-weight: var(--fw-title);
     line-height: 0.95;
